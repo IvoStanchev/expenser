@@ -1,0 +1,32 @@
+.sidebar-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 6vw;
+	min-width: 3rem;
+	max-width: 5rem;
+	background-color: #6b8d8b;
+	padding-top: 170px;
+}
+
+#logo {
+	color: #dfbf15;
+	transform: rotate(-90deg);
+	font-weight: bold;
+	font-size: 6vh;
+	margin: 0;
+}
+
+#svg-gear-permissions {
+	position: absolute;
+	bottom: 0;
+	padding-bottom: 20px;
+}
+
+.svg-gear:hover path {
+	fill: #dfbf15;
+}
+
+svg {
+	cursor: pointer;
+}

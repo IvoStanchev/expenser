@@ -1,0 +1,40 @@
+.product-container {
+	display: flex;
+	width: 70%;
+	margin: 0px auto;
+	align-items: center;
+	height: 5vh;
+	justify-content: center;
+	background-color: white;
+	border-radius: 9px;
+}
+
+.product-item {
+	padding: 0px 10px 0px 10px;
+}
+
+.svg-cross:hover path {
+	fill: #dfbf15;
+}
+
+#product-price,
+#product-gear-icon {
+	background-color: #6b8d8b;
+}
+
+#product-gear-icon {
+	padding: 3px 10px 3px 10px;
+}
+
+#product-cross-icon {
+	background-color: #ff0202;
+	border-radius: 0px 9px 9px 0px;
+}
+
+#product-name {
+	margin-right: auto;
+}
+
+#svg-gear-product {
+	transform: scale(0.7);
+}
