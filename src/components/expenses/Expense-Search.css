@@ -5,23 +5,26 @@
 
 #form-input {
 	width: 70%;
-	margin: 7vh 0px 7vh auto;
+	margin: 7vh 0vh 7vh auto;
 	height: 4vh;
 	border: none;
 	border-radius: 8px;
-	font-size: 24px;
+	font-size: 20px;
 	min-height: 5vh;
+	padding-left: 10px;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
 #form-button {
 	border: none;
-	padding: 12px 35px 12px 35px;
+	padding: 1vh 5vh 1vh 5vh;
 	border-radius: 8px;
 	margin: auto;
 	background-color: #6b8d8b;
 	color: white;
 	font-size: 18px;
-	text-decoration: none;
+	font-family: inherit;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
 #form-button:hover {
@@ -39,6 +42,8 @@
 	background-color: #6b8d8b;
 	color: white;
 	font-size: 16px;
+	font-family: inherit;
+	font-weight: 500;
 }
 
 #add-expense-button:hover {
@@ -55,12 +60,25 @@
 	}
 
 	#form-input {
-		width: 50%;
-		margin: 7vh 0px 7vh auto;
-		height: 6vh;
-		border: none;
-		border-radius: 8px;
-		font-size: 24px;
+		width: 70%;
+		margin-top: 20px;
+		margin-right: auto;
+		margin-bottom: 20px;
+		height: 4.5vh;
+		font-size: 14px;
 		min-height: 4vh;
+	}
+
+	#form-button {
+		border: none;
+		padding: 5px 25px 5px 25px;
+		font-size: 14px;
+		font-family: inherit;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
 	}
 }

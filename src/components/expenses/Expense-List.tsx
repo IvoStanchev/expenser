@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import ExpenseItem from './Expense-Item';
 import './Expense-List.css';
 import ExpenseSearch from './Expense-Search';
@@ -10,13 +10,16 @@ interface expenseProps {
 		price: number;
 		currency: string;
 	}[];
+	addExpenseWindowHandler(): any;
 }
 
 const ExpenseList: React.FC<expenseProps> = (props) => {
 	return (
 		<div className='product-list-container'>
 			<ExpenseSearch></ExpenseSearch>
-			<button id='add-expense-button'>Add Expense</button>
+			<button onClick={props.addExpenseWindowHandler} id='add-expense-button'>
+				Add Expense
+			</button>
 			{props.expenses.map((expense) => {
 				return (
 					<ExpenseItem
