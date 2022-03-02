@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import Sidebar from './components/sidebar/sidebar';
 import ExpenseList from './components/expenses/Expense-List';
-import ExpenseSearch from './components/expenses/Expense-search';
+import ExpenseSearch from './components/expenses/Expense-Search';
 
 //dummy data
 export const DUMMY_EXPENSES = [
