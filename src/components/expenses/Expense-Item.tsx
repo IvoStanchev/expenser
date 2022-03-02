@@ -1,6 +1,7 @@
 import './Expense-Item.css';
 import React from 'react';
 import { ExpenseProps } from '../interface/interface';
+// import gearImage from '../../assets/gear-image.svg';
 
 const ExpenseItem: React.FC<ExpenseProps> = (props) => {
 	return (

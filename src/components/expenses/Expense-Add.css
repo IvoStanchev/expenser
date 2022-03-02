@@ -7,11 +7,11 @@
 	background-color: #6b8d8b;
 	color: #fff;
 	border-radius: 9px 9px 0px 0px;
-	transition: all 1s;
+	transition: all 0.5s;
 }
 
 .slider.close {
-	transition: all 1s;
+	transition: all 0.5s;
 	height: 0;
 }
 

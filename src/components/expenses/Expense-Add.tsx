@@ -1,11 +1,12 @@
 import './Expense-Add.css';
 import React, { useState } from 'react';
 import { ExpenseData } from '../interface/interface';
+import { db } from '../../storage/firebase';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
 interface ExpenseAddProps {
 	windowState: Boolean;
 	addExpenseWindowHandler(forceState: Boolean | any): any;
-	addExpenseHandler(expense: ExpenseData): any;
 }
 
 const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
@@ -25,17 +26,29 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 		setExpenseCurrency(event.target.value);
 	};
 
+	//Don't close the slider until all fields are filled.
+	const windowValidation = () => {
+		if (expenseName && expensePrice && expenseCurrency) {
+			return props.addExpenseWindowHandler(false);
+		}
+	};
+
 	//Handle form submission
-	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+	const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
 		//Gather expenses
 		const expenseData: ExpenseData = {
 			name: expenseName,
 			price: expensePrice,
 			currency: expenseCurrency,
 		};
+		try {
+			await addDoc(collection(db, 'expenses'), expenseData);
+			console.log('Expense has been added to the database');
+		} catch (err) {
+			alert(err);
+		}
 
-		props.addExpenseHandler(expenseData);
-		event.preventDefault();
 		//?Form reset
 		setExpenseName('');
 		setExpensePrice('');
@@ -103,7 +116,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 				/>
 				<button
 					type='submit'
-					onClick={() => props.addExpenseWindowHandler(false)}
+					onClick={windowValidation}
 					id='add-expense-button-form'>
 					Add Expense
 				</button>

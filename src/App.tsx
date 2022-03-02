@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 import Sidebar from './components/sidebar/sidebar';
 import ExpenseList from './components/expenses/Expense-List';
-import ExpenseSearch from './components/expenses/Expense-Search';
 import ExpenseAdd from './components/expenses/Expense-Add';
-import ExpensePermissions from './components/expenses/Expense-Permissions';
 import { ExpenseData } from './components/interface/interface';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
 
 //dummy data
 export const DUMMY_EXPENSES = [
@@ -32,7 +32,7 @@ export const DUMMY_EXPENSES = [
 
 function App() {
 	//Set the state with the dummy data
-	const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+	// const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
 	const [windowState, setWindowState] = useState(false);
 
 	//Add expense logic
@@ -43,23 +43,19 @@ function App() {
 		setWindowState(!windowState);
 	};
 
-	const addExpenseHandler = (expense: ExpenseData) => {
-		setExpenses((prevExpenses: any) => {
-			return [...prevExpenses, expense];
-		});
-	};
+	// const addExpenseHandler = (expense: ExpenseData) => {
+	// 	setExpenses((prevExpenses: any) => {
+	// 		return [expense, ...prevExpenses];
+	// 	});
+	// };
 
 	return (
 		<div className='app-container'>
 			<Sidebar />
-			<ExpenseList
-				addExpenseWindowHandler={addExpenseWindowHandler}
-				expenses={expenses}
-			/>
+			<ExpenseList addExpenseWindowHandler={addExpenseWindowHandler} />
 			<ExpenseAdd
 				windowState={windowState}
-				addExpenseWindowHandler={addExpenseWindowHandler}
-				addExpenseHandler={addExpenseHandler}></ExpenseAdd>
+				addExpenseWindowHandler={addExpenseWindowHandler}></ExpenseAdd>
 		</div>
 	);
 }

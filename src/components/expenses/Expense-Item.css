@@ -9,7 +9,7 @@
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12),
 		0 4px 4px rgba(0, 0, 0, 0.12), 0 8px 8px rgba(0, 0, 0, 0.12),
 		0 16px 16px rgba(0, 0, 0, 0.12);
-	animation-duration: 1s;
+	animation-duration: 0.7s;
 	animation-name: slidein;
 }
 
@@ -33,11 +33,12 @@
 }
 
 #product-price {
-	width: 8%;
+	width: 15%;
 	border-radius: 9px 0px 0px 9px;
 }
 
 #product-price p {
+	white-space: nowrap;
 	float: right;
 	font-weight: 600;
 }
@@ -110,7 +111,8 @@
 	#product-price {
 		text-align: center;
 		margin: 0;
-		width: 15%;
+		width: 20%;
+		min-width: 25%;
 	}
 
 	#svg-gear-product {

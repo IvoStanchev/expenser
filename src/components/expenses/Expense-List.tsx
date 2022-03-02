@@ -2,31 +2,42 @@ import React from 'react';
 import ExpenseItem from './Expense-Item';
 import './Expense-List.css';
 import ExpenseSearch from './Expense-Search';
+import { useState, useEffect } from 'react';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../../storage/firebase';
 
 interface expenseProps {
-	expenses: {
-		id: string;
-		name: string;
-		price: number;
-		currency: string;
-	}[];
 	addExpenseWindowHandler(forceState: Boolean | any): any;
 }
 
 const ExpenseList: React.FC<expenseProps> = (props) => {
+	const [expenses, setExpenses] = useState([] as any);
+
+	useEffect(() => {
+		const q = query(collection(db, 'expenses'));
+		onSnapshot(q, (querySnapshot) => {
+			setExpenses(
+				querySnapshot.docs.map((doc) => ({
+					id: doc.id,
+					data: doc.data(),
+				})),
+			);
+		});
+	}, []);
+
 	return (
 		<div className='product-list-container'>
 			<ExpenseSearch></ExpenseSearch>
 			<button onClick={props.addExpenseWindowHandler} id='add-expense-button'>
 				Add Expense
 			</button>
-			{props.expenses.map((expense) => {
+			{expenses.map((expense: any) => {
 				return (
 					<ExpenseItem
 						key={expense.id}
-						name={expense.name}
-						currency={expense.currency}
-						price={expense.price}
+						name={expense.data.name}
+						currency={expense.data.currency}
+						price={expense.data.price}
 						id={expense.id}></ExpenseItem>
 				);
 			})}
