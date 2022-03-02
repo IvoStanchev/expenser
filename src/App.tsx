@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import Sidebar from './components/sidebar/sidebar';
-import ExpenseItem from './components/expenses/Expense-Item';
+import ExpenseList from './components/expenses/Expense-List';
+import ExpenseSearch from './components/expenses/Expense-search';
 
 //dummy data
 export const DUMMY_EXPENSES = [
@@ -24,6 +25,30 @@ export const DUMMY_EXPENSES = [
 		price: 450,
 		currency: 'USD',
 	},
+	{
+		id: 'e5',
+		name: 'New Desk (Wooden)',
+		price: 450,
+		currency: 'USD',
+	},
+	{
+		id: 'e6',
+		name: 'New Desk (Wooden)',
+		price: 450,
+		currency: 'USD',
+	},
+	{
+		id: 'e7',
+		name: 'New Desk (Wooden)',
+		price: 450,
+		currency: 'USD',
+	},
+	{
+		id: 'e8',
+		name: 'New Desk (Wooden)',
+		price: 450,
+		currency: 'USD',
+	},
 ];
 
 function App() {
@@ -33,6 +58,7 @@ function App() {
 	return (
 		<div className='app-container'>
 			<Sidebar />
+			<ExpenseList expenses={expenses} />
 		</div>
 	);
 }

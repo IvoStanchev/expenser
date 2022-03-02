@@ -1,0 +1,8 @@
+.product-list-container {
+	display: flex;
+	flex-direction: column;
+	gap: 2vh;
+	height: 50vh;
+	width: 100%;
+	overflow-y: scroll;
+}

@@ -1,21 +1,28 @@
-import { DUMMY_EXPENSES } from '../../App.jsx';
 import './Expense-Item.css';
+import React, { FC } from 'react';
 
-function ExpenseItem() {
+interface expenseProps {
+	id: string;
+	name: string;
+	price: number;
+	currency: string;
+}
+
+const ExpenseItem: React.FC<expenseProps> = (props) => {
 	return (
 		<div className='product-container'>
 			<div id='product-name' className='product-item'>
-				<p>Product name</p>
+				<p>{props.name}</p>
 			</div>
 			<div id='product-price' className='product-item'>
-				<p>100 USD</p>
+				<p>{props.price + ' ' + props.currency}</p>
 			</div>
 			<div id='product-gear-icon' className='product-item'>
 				<svg
 					width='40'
 					className='svg-gear'
 					id='svg-gear-product'
-					height='40'
+					height='47'
 					viewBox='0 0 60 60'
 					fill='none'
 					xmlns='http://www.w3.org/2000/svg'>
@@ -57,6 +64,6 @@ function ExpenseItem() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default ExpenseItem;
