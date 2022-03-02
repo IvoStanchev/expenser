@@ -10,7 +10,7 @@ interface expenseProps {
 		price: number;
 		currency: string;
 	}[];
-	addExpenseWindowHandler(): any;
+	addExpenseWindowHandler(forceState: Boolean | any): any;
 }
 
 const ExpenseList: React.FC<expenseProps> = (props) => {

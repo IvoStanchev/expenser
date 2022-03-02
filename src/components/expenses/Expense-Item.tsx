@@ -1,5 +1,5 @@
 import './Expense-Item.css';
-import React, { FC } from 'react';
+import React from 'react';
 
 interface expenseProps {
 	id: string;

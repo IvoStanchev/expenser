@@ -4,6 +4,7 @@ import Sidebar from './components/sidebar/sidebar';
 import ExpenseList from './components/expenses/Expense-List';
 import ExpenseSearch from './components/expenses/Expense-Search';
 import ExpenseAdd from './components/expenses/Expense-Add';
+import ExpensePermissions from './components/expenses/Expense-Permissions';
 
 //dummy data
 export const DUMMY_EXPENSES = [
@@ -33,7 +34,10 @@ function App() {
 	const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
 	const [windowState, setWindowState] = useState(false);
 
-	const addExpenseWindowHandler = () => {
+	const addExpenseWindowHandler = (forceState: Boolean | any) => {
+		if (forceState) {
+			setWindowState(false);
+		}
 		setWindowState(!windowState);
 	};
 	return (
@@ -43,7 +47,9 @@ function App() {
 				addExpenseWindowHandler={addExpenseWindowHandler}
 				expenses={expenses}
 			/>
-			<ExpenseAdd windowState={windowState}></ExpenseAdd>
+			<ExpenseAdd
+				windowState={windowState}
+				addExpenseWindowHandler={addExpenseWindowHandler}></ExpenseAdd>
 		</div>
 	);
 }
