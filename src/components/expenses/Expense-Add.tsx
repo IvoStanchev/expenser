@@ -57,13 +57,14 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 
 	return (
 		<div className={props.windowState ? 'slider' : 'slider close'}>
-			<div id='close-item' onClick={() => props.addExpenseWindowHandler(false)}>
+			<div onClick={() => props.addExpenseWindowHandler(false)}>
 				<svg
 					width='35'
 					height='60'
 					viewBox='12 8 40 40'
 					className='svg-cross'
 					fill='none'
+					id='close-item'
 					xmlns='http://www.w3.org/2000/svg'>
 					<path
 						d='M22.9245 38.8389L42.0753 21.1612'

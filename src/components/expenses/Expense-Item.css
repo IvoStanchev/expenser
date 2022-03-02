@@ -63,6 +63,7 @@
 	align-items: center;
 	font-weight: 600;
 	margin-right: auto;
+	text-overflow: ellipsis;
 }
 
 #svg-gear-product {

@@ -3,7 +3,7 @@ import ExpenseItem from './Expense-Item';
 import './Expense-List.css';
 import ExpenseSearch from './Expense-Search';
 import { useState, useEffect } from 'react';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../../storage/firebase';
 
 interface expenseProps {
@@ -11,8 +11,10 @@ interface expenseProps {
 }
 
 const ExpenseList: React.FC<expenseProps> = (props) => {
+	//State for all expenses
 	const [expenses, setExpenses] = useState([] as any);
 
+	//Fetch all expenses from the database and set them in state
 	useEffect(() => {
 		const q = query(collection(db, 'expenses'));
 		onSnapshot(q, (querySnapshot) => {

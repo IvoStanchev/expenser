@@ -1,9 +1,19 @@
 import './Expense-Item.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { ExpenseProps } from '../interface/interface';
-// import gearImage from '../../assets/gear-image.svg';
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '../../storage/firebase';
 
 const ExpenseItem: React.FC<ExpenseProps> = (props) => {
+	const handleDelete = async () => {
+		const taskDocRef = doc(db, 'expenses', props.id);
+		try {
+			await deleteDoc(taskDocRef);
+		} catch (err) {
+			alert(err);
+		}
+	};
+
 	return (
 		<div className='product-container'>
 			<div id='product-name' className='product-item'>
@@ -15,7 +25,7 @@ const ExpenseItem: React.FC<ExpenseProps> = (props) => {
 			<div id='product-gear-icon' className='product-item'>
 				<svg
 					width='40'
-					className='svg-gear'
+					className='svg-gear '
 					id='svg-gear-product'
 					height='40'
 					viewBox='0 0 60 60'
@@ -34,7 +44,7 @@ const ExpenseItem: React.FC<ExpenseProps> = (props) => {
 					/>
 				</svg>
 			</div>
-			<div id='product-cross-icon' className='product-item'>
+			<div onClick={handleDelete} id='product-cross-icon' className='product-item'>
 				<svg
 					width='35'
 					height='60'
