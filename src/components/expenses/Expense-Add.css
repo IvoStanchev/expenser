@@ -1,7 +1,7 @@
 .slider {
 	position: absolute;
 	width: 100%;
-	height: 70%;
+	height: 60%;
 	bottom: 0;
 	overflow: hidden;
 	background-color: #6b8d8b;
@@ -28,10 +28,18 @@
 
 .add-item-form-control {
 	width: 50%;
-	height: 7vh;
+	height: 5vh;
 	border-radius: 9px;
 	border: none;
+	padding-left: 10px;
 	margin-bottom: 3vh;
+	font-size: 3.5vh;
+	resize: none;
+	outline: none;
+}
+
+.add-item-form-control:-webkit-autofill::first-line {
+	font-size: 3vh;
 }
 
 h3 {
@@ -73,5 +81,24 @@ label {
 	to {
 		background-color: #1c1c1c;
 		color: #dfbf15;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	h3 {
+		font-size: 14px;
+		font-weight: bold;
+	}
+
+	.add-item-form-control {
+		width: 80%;
+	}
+
+	#add-expense-button-form {
+		width: 50%;
+		padding: 1vh 5vh 1vh 5vh;
+		font-size: 16px;
+		font-family: inherit;
+		font-weight: 500;
 	}
 }

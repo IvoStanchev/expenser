@@ -5,6 +5,7 @@ import ExpenseList from './components/expenses/Expense-List';
 import ExpenseSearch from './components/expenses/Expense-Search';
 import ExpenseAdd from './components/expenses/Expense-Add';
 import ExpensePermissions from './components/expenses/Expense-Permissions';
+import { ExpenseData } from './components/interface/interface';
 
 //dummy data
 export const DUMMY_EXPENSES = [
@@ -34,12 +35,20 @@ function App() {
 	const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
 	const [windowState, setWindowState] = useState(false);
 
+	//Add expense logic
 	const addExpenseWindowHandler = (forceState: Boolean | any) => {
 		if (forceState) {
 			setWindowState(false);
 		}
 		setWindowState(!windowState);
 	};
+
+	const addExpenseHandler = (expense: ExpenseData) => {
+		setExpenses((prevExpenses: any) => {
+			return [...prevExpenses, expense];
+		});
+	};
+
 	return (
 		<div className='app-container'>
 			<Sidebar />
@@ -49,7 +58,8 @@ function App() {
 			/>
 			<ExpenseAdd
 				windowState={windowState}
-				addExpenseWindowHandler={addExpenseWindowHandler}></ExpenseAdd>
+				addExpenseWindowHandler={addExpenseWindowHandler}
+				addExpenseHandler={addExpenseHandler}></ExpenseAdd>
 		</div>
 	);
 }

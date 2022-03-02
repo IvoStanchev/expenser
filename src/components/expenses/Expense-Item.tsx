@@ -1,14 +1,8 @@
 import './Expense-Item.css';
 import React from 'react';
+import { ExpenseProps } from '../interface/interface';
 
-interface expenseProps {
-	id: string;
-	name: string;
-	price: number;
-	currency: string;
-}
-
-const ExpenseItem: React.FC<expenseProps> = (props) => {
+const ExpenseItem: React.FC<ExpenseProps> = (props) => {
 	return (
 		<div className='product-container'>
 			<div id='product-name' className='product-item'>
