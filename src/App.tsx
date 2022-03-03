@@ -42,21 +42,25 @@ function App() {
 	return (
 		<div className='app-container'>
 			<Sidebar />
+			{/*	- Used to switch the update-expense state boolean and lift up the state from the item component
+				- Used to switch the add-expense state boolean */}
 			<ExpenseList
-				updateExpenseWindowHandler={updateExpenseWindowHandler} //Used to switch the update-expense state boolean and lift up the state from the item component
-				addExpenseWindowHandler={addExpenseWindowHandler} //Used to switch the add-expense state boolean
+				updateExpenseWindowHandler={updateExpenseWindowHandler}
+				addExpenseWindowHandler={addExpenseWindowHandler}
 			/>
+			{/*- Pass the windows state for the add expense component so we can show the slider conditionally
+			   - Pass the add expense handler to be used for closing the slider by pressing the "X" button */}
 			<ExpenseAdd
-				windowState={windowState} //Pass the windows state for the add expense component so we can show the slider conditionally
+				windowState={windowState}
 				addExpenseWindowHandler={addExpenseWindowHandler}></ExpenseAdd>
-			//Pass the add expense handler to be used for closing the slider by pressing
-			the "X" button
+
+			{/* - Pass the current expense to the update component 
+				- Pass the state of the window slider
+				- Pass the update expense handler to be used for closing the slider by pressing the "X" button*/}
 			<ExpenseUpdate
-				getExpenses={getExpenses} //Pass the current expense to the update component
-				updateWindowState={updateWindowState} //Pass the state of the window slider
+				getExpenses={getExpenses}
+				updateWindowState={updateWindowState}
 				updateExpenseWindowHandler={updateExpenseWindowHandler}></ExpenseUpdate>
-			//Pass the update expense handler to be used for closing the slider by
-			pressing the "X" button
 		</div>
 	);
 }

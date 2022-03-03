@@ -39,6 +39,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 				Add Expense
 			</button>
 			{expenses.map((expense: any) => {
+				//Map over all expenses and provide their data.
 				return (
 					<ExpenseItem
 						updateExpenseWindowHandler={props.updateExpenseWindowHandler}
