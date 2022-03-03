@@ -16,8 +16,8 @@ const ExpenseUpdate: React.FC<ExpenseUpdateProps> = (props) => {
 	const [expensePrice, setExpensePrice]: any = useState('');
 	const [expenseCurrency, setExpenseCurrency]: any = useState('');
 
-	//Expense data is fetched when the gear icon is pressed in the ExpenseItem component, however, before that we will receive an empty object.
-	//useEffect will force set the initial input values when the getExpensees props populate with data.
+	//Expense data is fetched when the gear icon on the respective expense is clicked in the ExpenseItem component, however, before that we will receive an empty object here.
+	//useEffect will force-set the initial input values when the getExpensees props populate with data.
 	useEffect(() => {
 		setExpenseName(props.getExpenses.name);
 		setExpensePrice(props.getExpenses.price);

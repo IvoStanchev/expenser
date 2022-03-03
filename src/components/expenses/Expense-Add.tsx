@@ -15,7 +15,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	const [expensePrice, setExpensePrice] = React.useState('');
 	const [expenseCurrency, setExpenseCurrency] = React.useState('');
 
-	//Handlers for the form input
+	//Handlers for the form input that set all input values to state
 	const nameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setExpenseName(event.target.value);
 	};
@@ -26,7 +26,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 		setExpenseCurrency(event.target.value);
 	};
 
-	//Don't close the slider until all fields are filled.
+	//Don't close the add-item slider until all input fields are filled.
 	const windowValidation = () => {
 		if (expenseName && expensePrice && expenseCurrency) {
 			return props.addExpenseWindowHandler(false);
@@ -36,13 +36,13 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	//Handle form submission
 	const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		//Gather expenses
+		//Prepare all expense data from state into an object
 		const expenseData: ExpenseData = {
 			name: expenseName,
 			price: expensePrice,
 			currency: expenseCurrency.toUpperCase(),
 		};
-		//Add the expense to the database
+		//Add the expenseData to the database
 		try {
 			await addDoc(collection(db, 'expenses'), expenseData);
 			console.log('Expense has been added to the database');
@@ -50,7 +50,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 			alert(err);
 		}
 
-		//Form reset
+		//Form field reset
 		setExpenseName('');
 		setExpensePrice('');
 		setExpenseCurrency('');
@@ -58,7 +58,9 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 
 	return (
 		<div className={props.windowState ? 'slider' : 'slider close'}>
+			//The add expense window will slide up depending on its class.
 			<div onClick={() => props.addExpenseWindowHandler(false)}>
+				//Clicking "X" will close the window
 				<svg
 					width='35'
 					height='60'
@@ -118,7 +120,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 				/>
 				<button
 					type='submit'
-					onClick={windowValidation}
+					onClick={windowValidation} // If all inputs are filled we close the window when adding an expense
 					id='add-expense-button-form'>
 					Add Expense
 				</button>

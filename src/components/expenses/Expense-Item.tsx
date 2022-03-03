@@ -1,5 +1,4 @@
 import './Expense-Item.css';
-import React, { useState } from 'react';
 import { ExpenseProps } from '../interface/interface';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../storage/firebase';
@@ -11,8 +10,10 @@ interface ExpenseItemProps extends ExpenseProps {
 const ExpenseItem: React.FC<ExpenseItemProps> = (props) => {
 	//Delete an item from the database.
 	const handleDelete = async () => {
+		//Define the reference to the element in the database
 		const taskDocRef = doc(db, 'expenses', props.id);
 		try {
+			//Delete the reference
 			await deleteDoc(taskDocRef);
 		} catch (err) {
 			alert(err);
