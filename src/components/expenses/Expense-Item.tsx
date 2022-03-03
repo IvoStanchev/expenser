@@ -1,10 +1,15 @@
 import './Expense-Item.css';
 import React, { useState } from 'react';
 import { ExpenseProps } from '../interface/interface';
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../storage/firebase';
 
-const ExpenseItem: React.FC<ExpenseProps> = (props) => {
+interface ExpenseItemProps extends ExpenseProps {
+	updateExpenseWindowHandler(forceState: Boolean | any, expenses?: any): any;
+}
+
+const ExpenseItem: React.FC<ExpenseItemProps> = (props) => {
+	//Delete an item from the database.
 	const handleDelete = async () => {
 		const taskDocRef = doc(db, 'expenses', props.id);
 		try {
@@ -22,7 +27,12 @@ const ExpenseItem: React.FC<ExpenseProps> = (props) => {
 			<div id='product-price' className='product-item'>
 				<p>{props.price + ' ' + props.currency}</p>
 			</div>
-			<div id='product-gear-icon' className='product-item'>
+			<div
+				onClick={() => {
+					props.updateExpenseWindowHandler(true, props);
+				}}
+				id='product-gear-icon'
+				className='product-item'>
 				<svg
 					width='40'
 					className='svg-gear '

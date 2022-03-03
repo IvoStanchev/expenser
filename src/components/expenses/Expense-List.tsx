@@ -5,9 +5,11 @@ import ExpenseSearch from './Expense-Search';
 import { useState, useEffect } from 'react';
 import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../../storage/firebase';
+import { ExpenseData } from '../interface/interface';
 
 interface expenseProps {
 	addExpenseWindowHandler(forceState: Boolean | any): any;
+	updateExpenseWindowHandler(forceState: Boolean | any, expense?: any): any;
 }
 
 const ExpenseList: React.FC<expenseProps> = (props) => {
@@ -36,6 +38,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 			{expenses.map((expense: any) => {
 				return (
 					<ExpenseItem
+						updateExpenseWindowHandler={props.updateExpenseWindowHandler}
 						key={expense.id}
 						name={expense.data.name}
 						currency={expense.data.currency}

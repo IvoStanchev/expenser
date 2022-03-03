@@ -40,8 +40,9 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 		const expenseData: ExpenseData = {
 			name: expenseName,
 			price: expensePrice,
-			currency: expenseCurrency,
+			currency: expenseCurrency.toUpperCase(),
 		};
+		//Add the expense to the database
 		try {
 			await addDoc(collection(db, 'expenses'), expenseData);
 			console.log('Expense has been added to the database');
@@ -49,7 +50,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 			alert(err);
 		}
 
-		//?Form reset
+		//Form reset
 		setExpenseName('');
 		setExpensePrice('');
 		setExpenseCurrency('');
