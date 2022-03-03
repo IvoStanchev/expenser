@@ -58,9 +58,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 
 	return (
 		<div className={props.windowState ? 'slider' : 'slider close'}>
-			//The add expense window will slide up depending on its class.
 			<div onClick={() => props.addExpenseWindowHandler(false)}>
-				//Clicking "X" will close the window
 				<svg
 					width='35'
 					height='60'
@@ -120,7 +118,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 				/>
 				<button
 					type='submit'
-					onClick={windowValidation} // If all inputs are filled we close the window when adding an expense
+					onClick={windowValidation}
 					id='add-expense-button-form'>
 					Add Expense
 				</button>
