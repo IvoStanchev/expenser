@@ -1,0 +1,76 @@
+.permissions-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: absolute;
+	width: 60%;
+	height: 100%;
+	top: 0;
+	right: 0;
+	overflow: hidden;
+	background-color: #57716f;
+	color: #fff;
+	border-radius: 9px 0px 0px 9px;
+	transition: all 0.5s;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	gap: 2.5vh;
+}
+
+.permissions-container.permissions-closed {
+	transition: all 0.5s;
+	width: 0;
+}
+
+.permissions-container.permissions-closed > * {
+	display: none;
+}
+
+.single-permission {
+	display: flex;
+	background-color: white;
+	color: black;
+	width: 70%;
+	min-width: 70%;
+	border-radius: 9px;
+	height: 8vh;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#permission-allow-button {
+	background-color: #71d271;
+	border: none;
+	height: 100%;
+	width: 15vh;
+	margin-left: auto;
+	border-radius: 9px 0px 0px 9px;
+	font-family: inherit;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#permission-allow-button:hover {
+	transition: all 0.5s;
+	background-color: #e0bf17;
+}
+
+#permission-deny-button {
+	background-color: #c23433;
+	border: none;
+	height: 100%;
+	width: 15vh;
+	border-radius: 0px 9px 9px 0px;
+	font-family: inherit;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#permission-deny-button:hover {
+	transition: all 0.5s;
+	background-color: #e0bf17;
+}
+
+#permission-name {
+	padding-left: 18px;
+	align-self: center;
+	font-weight: 600;
+}

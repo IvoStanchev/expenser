@@ -1,7 +1,19 @@
-const ExpensePermissions = () => {
+import './Expense-Permissions.css';
+
+interface deleteProps {
+	deleteExpenseWindowHandler(forceState?: Boolean | any): any;
+	deleteWindowState: Boolean;
+}
+
+const ExpensePermissions: React.FC<deleteProps> = (props) => {
 	return (
-		<div>
-			<div id='close-item'>
+		<div
+			className={
+				props.deleteWindowState
+					? 'permissions-container'
+					: 'permissions-container permissions-closed'
+			}>
+			<div id='close-permissions-item'>
 				<svg
 					width='35'
 					height='60'
@@ -24,6 +36,34 @@ const ExpensePermissions = () => {
 				</svg>
 			</div>
 			<h3 id='title-add-expense'>Complete the form to add a new expense.</h3>
+			<div className='single-permission'>
+				<div id='permission-name'>
+					<p id='name'>CREATE</p>
+				</div>
+				<button id='permission-allow-button'>Allow</button>
+				<button id='permission-deny-button'>Deny</button>
+			</div>
+			<div className='single-permission'>
+				<div id='permission-name'>
+					<p id='name'>READ</p>
+				</div>
+				<button id='permission-allow-button'>Allow</button>
+				<button id='permission-deny-button'>Deny</button>
+			</div>
+			<div className='single-permission'>
+				<div id='permission-name'>
+					<p id='name'>UPDATE</p>
+				</div>
+				<button id='permission-allow-button'>Allow</button>
+				<button id='permission-deny-button'>Deny</button>
+			</div>
+			<div className='single-permission'>
+				<div id='permission-name'>
+					<p id='name'>DELETE</p>
+				</div>
+				<button id='permission-allow-button'>Allow</button>
+				<button id='permission-deny-button'>Deny</button>
+			</div>
 		</div>
 	);
 };

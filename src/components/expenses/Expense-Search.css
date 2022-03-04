@@ -13,6 +13,7 @@
 	min-height: 5vh;
 	padding-left: 10px;
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+	background-color: #efece5;
 }
 
 #form-button {
@@ -21,7 +22,7 @@
 	border-radius: 8px;
 	margin: auto;
 	background-color: #6b8d8b;
-	color: white;
+	color: #efece5;
 	font-size: 18px;
 	font-family: inherit;
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
@@ -39,7 +40,7 @@
 	padding: 1vh 20vh 1vh 20vh;
 	border-radius: 8px;
 	background-color: #6b8d8b;
-	color: white;
+	color: #efece5;
 	font-size: 16px;
 	font-family: inherit;
 	font-weight: 500;
@@ -85,7 +86,7 @@
 @keyframes background-button-animation {
 	from {
 		background-color: #6b8d8b;
-		color: white;
+		color: #efece5;
 	}
 	to {
 		background-color: #1c1c1c;

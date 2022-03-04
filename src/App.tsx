@@ -5,11 +5,13 @@ import Sidebar from './components/sidebar/sidebar';
 import ExpenseList from './components/expenses/Expense-List';
 import ExpenseAdd from './components/expenses/Expense-Add';
 import ExpenseUpdate from './components/expenses/Expense-Update';
+import ExpensePermissions from './components/expenses/Expense-Permissions';
 
 function App() {
-	//State related to the two slider windows and lifted state from the item component
+	//State related to the three slider windows and lifted state from the item component
 	const [windowState, setWindowState] = useState(false);
 	const [updateWindowState, setUpdateWindowState] = useState(false);
+	const [deleteWindowState, setDeleteWindowState] = useState(false);
 	const [getExpenses, setGetExpenses] = useState({});
 
 	//Open add-expense window slider
@@ -39,9 +41,17 @@ function App() {
 		setUpdateWindowState(!updateWindowState);
 	};
 
+	const deleteExpenseWindowHandler = (forceState?: Boolean) => {
+		//Force the state when we press a button to close the slider
+		if (forceState) {
+			setDeleteWindowState(false);
+		}
+		//Change the state to the opposite of the current state
+		setDeleteWindowState(!deleteWindowState);
+	};
 	return (
 		<div className='app-container'>
-			<Sidebar />
+			<Sidebar deleteExpenseWindowHandler={deleteExpenseWindowHandler} />
 			{/*	- Used to switch the update-expense state boolean and lift up the state from the item component
 				- Used to switch the add-expense state boolean */}
 			<ExpenseList
@@ -61,6 +71,11 @@ function App() {
 				getExpenses={getExpenses}
 				updateWindowState={updateWindowState}
 				updateExpenseWindowHandler={updateExpenseWindowHandler}></ExpenseUpdate>
+			<ExpensePermissions
+				deleteWindowState={deleteWindowState}
+				deleteExpenseWindowHandler={
+					deleteExpenseWindowHandler
+				}></ExpensePermissions>
 		</div>
 	);
 }

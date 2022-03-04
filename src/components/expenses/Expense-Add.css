@@ -8,6 +8,7 @@
 	color: #fff;
 	border-radius: 9px 9px 0px 0px;
 	transition: all 0.5s;
+	z-index: 2;
 }
 
 .slider.close {

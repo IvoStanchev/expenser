@@ -2,7 +2,7 @@ import './Expense-Add.css';
 import React, { useState } from 'react';
 import { ExpenseData } from '../interface/interface';
 import { db } from '../../storage/firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 
 interface ExpenseAddProps {
 	windowState: Boolean;
@@ -11,9 +11,9 @@ interface ExpenseAddProps {
 
 const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	//Set state for the form input
-	const [expenseName, setExpenseName] = React.useState('');
-	const [expensePrice, setExpensePrice] = React.useState('');
-	const [expenseCurrency, setExpenseCurrency] = React.useState('');
+	const [expenseName, setExpenseName] = useState('');
+	const [expensePrice, setExpensePrice] = useState('');
+	const [expenseCurrency, setExpenseCurrency] = useState('');
 
 	//Handlers for the form input that set all input values to state
 	const nameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {

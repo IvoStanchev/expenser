@@ -1,9 +1,13 @@
 import React from 'react';
 import './sidebar.css';
 
-function Sidebar() {
+interface deleteProps {
+	deleteExpenseWindowHandler(forceState?: Boolean | any): any;
+}
+
+const Sidebar: React.FC<deleteProps> = (props) => {
 	return (
-		<div className='sidebar-container'>
+		<div onClick={props.deleteExpenseWindowHandler} className='sidebar-container'>
 			<p id='logo'>EXPENSER</p>
 			<svg
 				width='40'
@@ -27,6 +31,6 @@ function Sidebar() {
 			</svg>
 		</div>
 	);
-}
+};
 
 export default Sidebar;
