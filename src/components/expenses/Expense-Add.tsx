@@ -2,11 +2,13 @@ import './Expense-Add.css';
 import React, { useState } from 'react';
 import { ExpenseData } from '../interface/interface';
 import { db } from '../../storage/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { NotificationManager } from 'react-notifications';
 
 interface ExpenseAddProps {
 	windowState: Boolean;
-	addExpenseWindowHandler(forceState: Boolean | any): any;
+	addExpenseWindowHandler(forceState: boolean);
+	appPermissionsState;
 }
 
 const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
@@ -41,13 +43,25 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 			name: expenseName,
 			price: expensePrice,
 			currency: expenseCurrency.toUpperCase(),
+			created: Timestamp.now(),
 		};
 		//Add the expenseData to the database
-		try {
-			await addDoc(collection(db, 'expenses'), expenseData);
-			console.log('Expense has been added to the database');
-		} catch (err) {
-			alert(err);
+		if (props.appPermissionsState.create) {
+			try {
+				await addDoc(collection(db, 'expenses'), expenseData);
+				NotificationManager.success('Added successfully', `${expenseName}`);
+			} catch (err) {
+				NotificationManager.error(
+					'Could not add to database',
+					'Click me!',
+					5000,
+					(err: string) => {
+						alert(err);
+					},
+				);
+			}
+		} else {
+			NotificationManager.error('You have no permissions', 'Denied');
 		}
 
 		//Form field reset

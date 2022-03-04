@@ -2,12 +2,12 @@ import React from 'react';
 import './sidebar.css';
 
 interface deleteProps {
-	deleteExpenseWindowHandler(forceState?: Boolean | any): any;
+	permissionsWindowHandler(forceState?: boolean | any);
 }
 
 const Sidebar: React.FC<deleteProps> = (props) => {
 	return (
-		<div onClick={props.deleteExpenseWindowHandler} className='sidebar-container'>
+		<div onClick={props.permissionsWindowHandler} className='sidebar-container'>
 			<p id='logo'>EXPENSER</p>
 			<svg
 				width='40'

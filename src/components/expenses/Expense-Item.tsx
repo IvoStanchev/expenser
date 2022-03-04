@@ -2,21 +2,35 @@ import './Expense-Item.css';
 import { ExpenseProps } from '../interface/interface';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../storage/firebase';
+import { NotificationManager } from 'react-notifications';
 
 interface ExpenseItemProps extends ExpenseProps {
-	updateExpenseWindowHandler(forceState: Boolean | any, expenses?: any): any;
+	updateExpenseWindowHandler(forceState: boolean, expenses?: any);
+	appPermissionsState;
 }
 
 const ExpenseItem: React.FC<ExpenseItemProps> = (props) => {
 	//Delete an item from the database.
 	const handleDelete = async () => {
 		//Define the reference to the element in the database
-		const taskDocRef = doc(db, 'expenses', props.id);
-		try {
-			//Delete the reference
-			await deleteDoc(taskDocRef);
-		} catch (err) {
-			alert(err);
+		if (props.appPermissionsState.delete) {
+			const taskDocRef = doc(db, 'expenses', props.id);
+			try {
+				//Delete the reference
+				await deleteDoc(taskDocRef);
+				NotificationManager.success('Deleted successfully', `${props.name}`);
+			} catch (err) {
+				NotificationManager.error(
+					'Unable to delete from database!',
+					'Click me!',
+					5000,
+					() => {
+						alert(err);
+					},
+				);
+			}
+		} else {
+			NotificationManager.error('You have no permission to delete', 'Denied!');
 		}
 	};
 

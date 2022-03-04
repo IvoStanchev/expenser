@@ -16,6 +16,10 @@
 	height: 0;
 }
 
+.slider.close > * {
+	display: none;
+}
+
 #title-add-expense {
 	text-align: center;
 }

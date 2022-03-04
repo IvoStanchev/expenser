@@ -2,10 +2,10 @@
 	display: flex;
 	width: 75%;
 	margin: 0px auto;
-	height: 14%;
+	height: 9%;
 	background-color: #efece5;
-	border-radius: 9px;
 	max-height: 65px;
+	border-radius: 9px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12),
 		0 4px 4px rgba(0, 0, 0, 0.12), 0 8px 8px rgba(0, 0, 0, 0.12),
 		0 16px 16px rgba(0, 0, 0, 0.12);
@@ -29,6 +29,7 @@
 }
 
 .svg-cross:hover path {
+	transition: all 0.5s;
 	stroke: #dfbf15;
 }
 
@@ -76,6 +77,7 @@
 }
 
 #svg-gear-product:hover path {
+	transition: all 0.5s;
 	fill: #dfbf15;
 }
 

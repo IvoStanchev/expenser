@@ -14,6 +14,7 @@
 		0 16px 16px rgba(0, 0, 0, 0.12);
 	transition: all 0.5s;
 	z-index: 1;
+	cursor: pointer;
 }
 
 #logo {
@@ -22,6 +23,16 @@
 	font-weight: bold;
 	font-size: 6vh;
 	margin: 0;
+	transition: all 1s;
+}
+
+.sidebar-container:hover #logo {
+	color: black;
+}
+.sidebar-container:hover {
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 #svg-gear-permissions {

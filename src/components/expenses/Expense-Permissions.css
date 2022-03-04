@@ -3,7 +3,7 @@
 	flex-direction: column;
 	align-items: center;
 	position: absolute;
-	width: 60%;
+	width: 50%;
 	height: 100%;
 	top: 0;
 	right: 0;
@@ -14,6 +14,16 @@
 	transition: all 0.5s;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	gap: 2.5vh;
+}
+
+.btn-on {
+	transition: all 0.5s;
+	background-color: #71d271;
+}
+
+.btn-off {
+	transition: all 0.5s;
+	background-color: #c23433;
 }
 
 .permissions-container.permissions-closed {
@@ -37,7 +47,6 @@
 }
 
 #permission-allow-button {
-	background-color: #71d271;
 	border: none;
 	height: 100%;
 	width: 15vh;
@@ -54,7 +63,6 @@
 }
 
 #permission-deny-button {
-	background-color: #c23433;
 	border: none;
 	height: 100%;
 	width: 15vh;
@@ -73,4 +81,72 @@
 	padding-left: 18px;
 	align-self: center;
 	font-weight: 600;
+}
+
+@media only screen and (max-width: 950px) {
+	.permissions-container {
+		width: 80%;
+	}
+
+	.single-permission {
+		align-self: flex-start;
+		transform: scale(0.8);
+		height: 7vh;
+		max-height: 15vh;
+	}
+
+	#permission-deny-button {
+		height: 100%;
+		width: 10vh;
+	}
+
+	#permission-allow-button {
+		height: 100%;
+		width: 10vh;
+	}
+
+	#title-permissions-expense {
+		align-self: flex-start;
+		font-size: 12px;
+		padding-left: 30px;
+	}
+}
+
+@media only screen and (max-height: 700px) {
+	.single-permission {
+		align-self: flex-start;
+		transform: scale(0.8);
+		height: 10vh;
+		width: 90%;
+	}
+	#permission-deny-button {
+		height: 100%;
+		width: 30%;
+	}
+
+	#permission-allow-button {
+		height: 100%;
+		width: 30%;
+	}
+}
+
+@media only screen and (max-height: 812px) and (max-width: 375px) {
+	.permissions-container {
+		width: 100%;
+	}
+	.single-permission {
+		align-self: flex-start;
+		transform: scale(0.8);
+		height: 7vh;
+		width: 90%;
+	}
+	#permission-deny-button {
+		height: 100%;
+		width: 30%;
+	}
+
+	#permission-allow-button {
+		height: 100%;
+		width: 30%;
+	}
 }
