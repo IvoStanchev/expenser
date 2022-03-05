@@ -5,15 +5,16 @@
 
 #form-input {
 	width: 70%;
-	margin: 7vh 0vh 7vh auto;
+	margin: 6vh auto 6vh auto;
 	height: 4vh;
 	border: none;
 	border-radius: 8px;
 	font-size: 20px;
 	min-height: 5vh;
-	padding-left: 10px;
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 	background-color: #efece5;
+	resize: none;
+	outline: none;
 }
 
 #form-button {

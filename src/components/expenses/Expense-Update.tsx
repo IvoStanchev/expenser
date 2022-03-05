@@ -6,7 +6,7 @@ import { NotificationManager } from 'react-notifications';
 
 interface ExpenseUpdateProps {
 	updateWindowState: boolean;
-	updateExpenseWindowHandler(forceState: boolean | any, expenses?: any): any;
+	updateExpenseWindowHandler(forceState: boolean, expenses?: any);
 	getExpenses: any;
 	appPermissionsState;
 }
@@ -27,12 +27,20 @@ const ExpenseUpdate: React.FC<ExpenseUpdateProps> = (props) => {
 
 	//Handlers for the form input
 	const nameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setExpenseName(event.target.value);
+		if (event.target.value.length <= 20) {
+			setExpenseName(event.target.value);
+		} else {
+			NotificationManager.warning('Name too large!', 'Warning');
+		}
 	};
 	const priceInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setExpensePrice(event.target.value);
+		if (+event.target.value.toString().length <= 9) {
+			setExpensePrice(event.target.value);
+		} else {
+			NotificationManager.warning('Number too large!', 'Warning');
+		}
 	};
-	const currencyInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const currencyInputHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setExpenseCurrency(event.target.value);
 	};
 
@@ -118,16 +126,17 @@ const ExpenseUpdate: React.FC<ExpenseUpdateProps> = (props) => {
 					className='update-item-form-control'
 				/>
 				<label htmlFor='form-update-currency'>Currency</label>
-				<input
-					onChange={currencyInputHandler}
+				<select
 					value={expenseCurrency}
-					placeholder='Please enter your currency.'
-					type='text'
+					onChange={currencyInputHandler}
 					required
-					id='form-update-currency'
-					name='form-update-currency'
-					className='update-item-form-control'
-				/>
+					name='form-currency'
+					id='form-currency'
+					className='add-item-form-control'>
+					<option value='BGN'>BGN</option>
+					<option value='USD'>USD</option>
+					<option value='EUR'>EUR</option>
+				</select>
 				<button
 					onClick={() => {
 						props.updateExpenseWindowHandler(false);

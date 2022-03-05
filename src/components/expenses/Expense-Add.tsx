@@ -14,34 +14,39 @@ interface ExpenseAddProps {
 const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	//Set state for the form input
 	const [expenseName, setExpenseName] = useState('');
-	const [expensePrice, setExpensePrice] = useState('');
-	const [expenseCurrency, setExpenseCurrency] = useState('');
-
+	const [expensePrice, setExpensePrice] = useState(0);
+	const [expenseCurrency, setExpenseCurrency] = useState('BGN');
 	//Handlers for the form input that set all input values to state
 	const nameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setExpenseName(event.target.value);
+		if (event.target.value.length <= 20) {
+			setExpenseName(event.target.value);
+		} else {
+			NotificationManager.warning('Name too large!', 'Warning');
+		}
 	};
 	const priceInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setExpensePrice(event.target.value);
+		if (+event.target.value.toString().length <= 9) {
+			setExpensePrice(+event.target.value);
+		} else {
+			NotificationManager.warning('Number too large!', 'Warning');
+		}
 	};
-	const currencyInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const currencyInputHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setExpenseCurrency(event.target.value);
 	};
-
 	//Don't close the add-item slider until all input fields are filled.
 	const windowValidation = () => {
 		if (expenseName && expensePrice && expenseCurrency) {
 			return props.addExpenseWindowHandler(false);
 		}
 	};
-
 	//Handle form submission
 	const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		//Prepare all expense data from state into an object
 		const expenseData: ExpenseData = {
 			name: expenseName,
-			price: expensePrice,
+			price: Math.abs(expensePrice),
 			currency: expenseCurrency.toUpperCase(),
 			created: Timestamp.now(),
 		};
@@ -66,7 +71,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 
 		//Form field reset
 		setExpenseName('');
-		setExpensePrice('');
+		setExpensePrice(0);
 		setExpenseCurrency('');
 	};
 
@@ -120,16 +125,17 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 					className='add-item-form-control'
 				/>
 				<label htmlFor='form-currency'>Currency</label>
-				<input
+				<select
 					value={expenseCurrency}
 					onChange={currencyInputHandler}
-					placeholder='Please enter your currency.'
-					type='text'
 					required
-					id='form-currency'
 					name='form-currency'
-					className='add-item-form-control'
-				/>
+					id='form-currency'
+					className='add-item-form-control'>
+					<option value='BGN'>BGN</option>
+					<option value='USD'>USD</option>
+					<option value='EUR'>EUR</option>
+				</select>
 				<button
 					type='submit'
 					onClick={windowValidation}

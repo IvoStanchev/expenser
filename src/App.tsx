@@ -17,19 +17,27 @@ function App() {
 	const [appPermissionsState, setAllPermissionsState] = useState();
 	const [getExpenses, setGetExpenses] = useState({});
 
-	const permissionsWindowHandler = (forceState: boolean) => {
-		//Force the state when we press a button to close the slider
-		if (forceState) {
-			setPermissionsWindowState(false);
-		}
-		//Change the state to the opposite of the current state`
-		setPermissionsWindowState(!permissionsWindowState);
-	};
 	const permissionsStateHandler = (allPermissions: any) => {
 		setAllPermissionsState(allPermissions);
 	};
-	//Open add-expense window slider
+	const permissionsWindowHandler = (forceState: boolean) => {
+		if (windowState === true || updateWindowState === true) {
+			setWindowState(false);
+			setUpdateWindowState(false);
+		}
+		if (updateWindowState)
+			if (forceState) {
+				//Force the state when we press a button to close the slider
+				setPermissionsWindowState(false);
+			}
+		//Change the state to the opposite of the current state`
+		setPermissionsWindowState(!permissionsWindowState);
+	};
 	const addExpenseWindowHandler = (forceState: boolean | undefined) => {
+		if (permissionsWindowState === true || updateWindowState === true) {
+			setPermissionsWindowState(false);
+			setUpdateWindowState(false);
+		}
 		//Force the state when we press a button to close the slider
 		if (forceState) {
 			setWindowState(false);
@@ -39,6 +47,10 @@ function App() {
 	};
 	//Open update-expense window slider, also fetch the current expense from the Expense-item component. In any case, the update handler will have to be drilled to the item component to change the status of the slider, so it is easier to take the state of the pressed expense with the same handler.
 	const updateExpenseWindowHandler = (forceState: boolean, expenses?: any) => {
+		if (windowState === true || permissionsWindowState === true) {
+			setWindowState(false);
+			setPermissionsWindowState(false);
+		}
 		//Force the state when we press a button to close the slider
 		if (forceState) {
 			setUpdateWindowState(false);

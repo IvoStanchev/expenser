@@ -33,12 +33,12 @@
 	height: 5vh;
 	border-radius: 9px;
 	border: none;
-	padding-left: 20px;
 	margin-bottom: 3vh;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	font-size: 3vh;
 	resize: none;
 	outline: none;
+	text-align: center;
 }
 
 .update-item-form-control:-webkit-autofill::first-line {

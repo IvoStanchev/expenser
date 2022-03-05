@@ -8,14 +8,19 @@ import { db } from '../../storage/firebase';
 import { NotificationManager } from 'react-notifications';
 
 interface expenseProps {
-	addExpenseWindowHandler(forceState: boolean | any);
-	updateExpenseWindowHandler(forceState: boolean | any, expense?: any);
-	appPermissionsState;
+	addExpenseWindowHandler;
+	updateExpenseWindowHandler: (forceState: boolean, expenses?: any) => any;
+	appPermissionsState: { read: any } | undefined;
 }
 
 const ExpenseList: React.FC<expenseProps> = (props) => {
 	//State for all expenses, only god knows the types that we are receiving here?!
 	const [expenses, setExpenses] = useState([] as any);
+	const [searchTerm, setSearchTerm] = useState('');
+
+	const searchStateHandler = (searchString) => {
+		setSearchTerm(searchString);
+	};
 
 	//Fetch all expenses from the database and set them in state
 	useEffect(() => {
@@ -45,12 +50,20 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 				setTimeout(waitForElement);
 			}
 		}
-		waitForElement();
-	}, [props.appPermissionsState]);
+		if (searchTerm === '') {
+			waitForElement();
+		} else {
+			setExpenses(
+				expenses.filter((expense) =>
+					expense.data.name.toLowerCase().includes(searchTerm.toLowerCase()),
+				),
+			);
+		}
+	}, [props.appPermissionsState, searchTerm]);
 
 	return (
 		<div className='product-list-container'>
-			<ExpenseSearch></ExpenseSearch>
+			<ExpenseSearch searchStateHandler={searchStateHandler}></ExpenseSearch>
 			<button onClick={props.addExpenseWindowHandler} id='add-expense-button'>
 				Add Expense
 			</button>

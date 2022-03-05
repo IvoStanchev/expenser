@@ -1,6 +1,21 @@
 import './Expense-Search.css';
+import { useState, useEffect } from 'react';
 
-const ExpenseSearch = () => {
+interface search {
+	searchStateHandler: any;
+}
+
+const ExpenseSearch: React.FC<search> = (props) => {
+	const [searchTerm, setSearchTerm] = useState('');
+
+	const searchHandler = (event) => {
+		setSearchTerm(event.target.value);
+	};
+
+	useEffect(() => {
+		props.searchStateHandler(searchTerm);
+	}, [searchTerm]);
+
 	return (
 		<div className='form-container'>
 			<form className='form-group' action=''>
@@ -8,8 +23,9 @@ const ExpenseSearch = () => {
 					placeholder='Search your expense here...'
 					id='form-input'
 					type='text'
+					value={searchTerm}
+					onChange={searchHandler}
 				/>
-				<button id='form-button'>Search</button>
 			</form>
 		</div>
 	);
