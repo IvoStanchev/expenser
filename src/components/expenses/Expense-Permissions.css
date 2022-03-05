@@ -39,20 +39,18 @@
 #permission-allow-button.btn-on {
 	transition: all 0.5s;
 	background-color: #71d271;
-	width: 50%;
 }
 
 #permission-deny-button.btn-off {
 	transition: all 1s;
 	background-color: #c23433;
-	width: 50%;
 }
 
 #permission-allow-button {
 	transition: all 1s;
 	border: none;
 	height: 100%;
-	width: 10vh;
+	width: 20%;
 	background: #8f8f8f;
 	margin-left: auto;
 	margin-right: 15px;
@@ -72,7 +70,7 @@
 	background: #8f8f8f;
 	border: none;
 	height: 100%;
-	width: 10vh;
+	width: 20%;
 	border-radius: 9px 9px 9px 9px;
 	font-family: inherit;
 	font-size: 18px;
