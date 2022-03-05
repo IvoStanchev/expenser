@@ -18,7 +18,7 @@ interface permissionsProps {
 
 const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 	const [createState, setCreateState] = useState(true);
-	const [readState, setReadState] = useState(true);
+	const [readState, setReadState] = useState(undefined);
 	const [updateState, setUpdateState] = useState(true);
 	const [deleteState, setDeleteState] = useState(true);
 
@@ -29,7 +29,7 @@ const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 		delete: deleteState,
 	};
 
-	const createHandler = async (permission: boolean) => {
+	const createHandler = (permission: boolean) => {
 		updateData('CREATE', permission, createState);
 	};
 	const readHandler = (permission: boolean) => {
@@ -44,26 +44,29 @@ const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 
 	//Fetch all permissions from the database and set them in state
 	useEffect(() => {
-		//Define the query to be used in firestore.
-		const q = query(collection(db, 'CRUD'));
+		function fetchInitState() {
+			//Define the query to be used in firestore.
+			const q = query(collection(db, 'CRUD'));
 
-		//Get a dynamic snapshot of the current database
-		onSnapshot(q, (querySnapshot) => {
-			//Set all expenses in state
-			querySnapshot.docs.map((doc) => {
-				setCreateState(doc.data().CREATE);
-				setReadState(doc.data().READ);
-				setUpdateState(doc.data().UPDATE);
-				setDeleteState(doc.data().DELETE);
+			//Get a dynamic snapshot of the current database
+			onSnapshot(q, (querySnapshot) => {
+				//Set all expenses in state
+				querySnapshot.docs.map((doc) => {
+					setCreateState(doc.data().CREATE);
+					setReadState(doc.data().READ);
+					setUpdateState(doc.data().UPDATE);
+					setDeleteState(doc.data().DELETE);
+				});
 			});
-		});
-		props.permissionsStateHandler(allPermissions);
+			props.permissionsStateHandler(allPermissions);
+		}
+		fetchInitState();
 	}, [createState, readState, updateState, deleteState]);
 
 	const updateData = async (
 		type: string,
 		desiredState: boolean,
-		currentState: boolean,
+		currentState: boolean | undefined,
 	) => {
 		const taskDocRef = doc(db, 'CRUD', 'FQWwb7ntGMfccmwU78S8');
 		if (desiredState !== currentState) {
@@ -118,9 +121,7 @@ const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 					/>
 				</svg>
 			</div>
-			<h3 id='title-permissions-expense'>
-				You can set permissions for expense here.
-			</h3>
+			<h3 id='title-permissions-expense'>Modify expense permissions.</h3>
 			<div className='single-permission'>
 				<div id='permission-name'>
 					<p id='name'>CREATE</p>
