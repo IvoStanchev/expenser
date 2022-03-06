@@ -119,7 +119,7 @@ const ExpenseTotal = (props: any) => {
 	return (
 		<div className='total-box-container'>
 			<div className='card-container'>
-				<h1 className='card-title'>Expenses</h1>
+				<h1 className='card-title'>Total expenses</h1>
 				<h2 className='card-money'>
 					{totalExpensesState.toFixed(2)} {expenseCurrency}
 				</h2>
@@ -150,13 +150,13 @@ const ExpenseTotal = (props: any) => {
 			<div className='flip-card'>
 				<div className='flip-card-inner'>
 					<div className='flip-card-front'>
-						<h1 className='card-title'>Budget</h1>
+						<h1 className='card-title'>Monthly budget</h1>
 						<h2 className='card-money'>
 							{expenseCurrency === 'USD'
 								? (Number(budget) / usd).toFixed(2)
 								: expenseCurrency === 'EUR'
 								? (Number(budget) / eur).toFixed(2)
-								: Number(budget).toFixed(2)}
+								: Number(budget).toFixed(2)}{' '}
 							{expenseCurrency}
 						</h2>
 						<a href='/#' id='card-info'>
@@ -186,7 +186,7 @@ const ExpenseTotal = (props: any) => {
 				</div>
 			</div>
 			<div className='card-container'>
-				<h1 className='card-title'>Balance</h1>
+				<h1 className='card-title'>Current balance</h1>
 				<h2 className='card-money'>
 					{expenseCurrency === 'USD'
 						? (Number(budget) / usd - totalExpensesState).toFixed(2)

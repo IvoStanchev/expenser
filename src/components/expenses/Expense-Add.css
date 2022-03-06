@@ -98,17 +98,6 @@ input:focus::placeholder {
 	margin: 0px 20px 0px 0px;
 }
 
-@keyframes background-button-animation {
-	from {
-		background-color: #dfbf15;
-		color: white;
-	}
-	to {
-		background-color: #1c1c1c;
-		color: #dfbf15;
-	}
-}
-
 @media only screen and (max-width: 600px) {
 	h3 {
 		font-size: 14px;

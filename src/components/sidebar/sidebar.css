@@ -39,7 +39,7 @@
 
 .sidebar-container:hover #logo {
 	transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
-	color: black;
+	color: #4d4d4d;
 }
 .sidebar-container:hover {
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,

@@ -14,7 +14,7 @@ interface ExpenseAddProps {
 const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	//Set state for the form input
 	const [expenseName, setExpenseName] = useState('');
-	const [expensePrice, setExpensePrice] = useState(0);
+	const [expensePrice, setExpensePrice] = useState('');
 	const [expenseCurrency, setExpenseCurrency] = useState('BGN');
 	//Handlers for the form input that set all input values to state
 	const nameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	};
 	const priceInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (+event.target.value.toString().length <= 9) {
-			setExpensePrice(+event.target.value);
+			setExpensePrice(event.target.value);
 		} else {
 			NotificationManager.warning('Number too large!', 'Warning');
 		}
@@ -44,9 +44,10 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		//Prepare all expense data from state into an object
+
 		const expenseData: ExpenseData = {
 			name: expenseName,
-			price: Math.abs(expensePrice),
+			price: Math.abs(+expensePrice).toFixed(2),
 			currency: expenseCurrency.toUpperCase(),
 			created: Timestamp.now(),
 		};
@@ -71,7 +72,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 
 		//Form field reset
 		setExpenseName('');
-		setExpensePrice(0);
+		setExpensePrice('');
 		setExpenseCurrency('BGN');
 	};
 
@@ -118,7 +119,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 					value={String(expensePrice)}
 					onChange={priceInputHandler}
 					placeholder='Please enter expense price.'
-					type='number'
+					type='text'
 					required
 					id='form-price'
 					name='form-price'

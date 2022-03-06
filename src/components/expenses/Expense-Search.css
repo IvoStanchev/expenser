@@ -33,7 +33,18 @@
 
 #add-expense-button:hover {
 	cursor: pointer;
-	animation: background-button-animation 0.5s forwards;
+	animation: add-button-animation 0.5s forwards;
+}
+
+@keyframes add-button-animation {
+	from {
+		background-color: #6b8d8b;
+		color: white;
+	}
+	to {
+		background-color: #4d4d4d;
+		color: #dfbf15;
+	}
 }
 
 @media only screen and (max-width: 600px) {
@@ -64,16 +75,5 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-	}
-}
-
-@keyframes background-button-animation {
-	from {
-		background-color: #6b8d8b;
-		color: #efece5;
-	}
-	to {
-		background-color: #1c1c1c;
-		color: #dfbf15;
 	}
 }

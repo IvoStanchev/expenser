@@ -1,6 +1,6 @@
 export interface ExpenseData {
 	name: string;
-	price: number;
+	price: string;
 	currency: string;
 	created: { seconds: number; nanoseconds: number };
 }
