@@ -12,8 +12,12 @@ import {
 
 const ExpenseTotal = (props: any) => {
 	const [budget, setBudget] = useState('');
+	const [expenseCurrency, setExpenseCurrency] = useState('BGN');
+	const [totalExpensesState, setTotalExpensesState] = useState(0);
 	const q = query(collection(db, 'budget'));
 	const taskDocRef = doc(db, 'budget', 'qkwchA3krxNADr8dRGBP');
+	const usd = 1.79;
+	const eur = 1.96;
 
 	const totalExpenses = props.expenses.reduce(
 		(
@@ -29,10 +33,15 @@ const ExpenseTotal = (props: any) => {
 			} else {
 				sum += +expense.data.price;
 			}
+
 			return sum;
 		},
 		0,
 	);
+
+	useEffect(() => {
+		setTotalExpensesState(totalExpenses);
+	}, [props.expenses]);
 
 	const getPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.value.length <= 9) {
@@ -55,6 +64,18 @@ const ExpenseTotal = (props: any) => {
 			});
 		}
 	};
+
+	const currencyChangeHandler = (currency: string) => {
+		setExpenseCurrency(currency);
+		if (currency === 'USD') {
+			setTotalExpensesState(totalExpenses / usd);
+		} else if (currency === 'EUR') {
+			setTotalExpensesState(totalExpenses / eur);
+		} else {
+			setTotalExpensesState(totalExpenses);
+		}
+	};
+
 	const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		//Define the reference to the item we want to update in the database
@@ -78,21 +99,11 @@ const ExpenseTotal = (props: any) => {
 			);
 		}
 
-		//Define the query to be used in firestore and retrieve as descending.
-
-		// if (props.appPermissionsState.read) {
 		//Get a dynamic snapshot of the current database
 		onSnapshot(q, (querySnapshot) => {
 			//Set all expenses in state
 			setBudget(querySnapshot.docs.map((doc) => doc.data().budget).toString());
 		});
-		// } else {
-		// 	setBudget([]);
-		// 	NotificationManager.error(
-		// 		'You have no permissions to list expenses.',
-		// 		'Denied',
-		// 	);
-		// }
 		//Form field reset
 		setBudget('');
 	};
@@ -109,19 +120,53 @@ const ExpenseTotal = (props: any) => {
 		<div className='total-box-container'>
 			<div className='card-container'>
 				<h1 className='card-title'>Expenses</h1>
-				<h2 className='card-money'>{totalExpenses.toFixed(2)} BGN</h2>
+				<h2 className='card-money'>
+					{totalExpensesState.toFixed(2)} {expenseCurrency}
+				</h2>
+				<div id='currency-convert-buttons'>
+					<a
+						href='/#'
+						onClick={() => {
+							currencyChangeHandler('BGN');
+						}}>
+						BGN
+					</a>
+					<a
+						href='/#'
+						onClick={() => {
+							currencyChangeHandler('EUR');
+						}}>
+						EUR
+					</a>
+					<a
+						href='/#'
+						onClick={() => {
+							currencyChangeHandler('USD');
+						}}>
+						USD
+					</a>
+				</div>
 			</div>
 			<div className='flip-card'>
 				<div className='flip-card-inner'>
 					<div className='flip-card-front'>
 						<h1 className='card-title'>Budget</h1>
-						<h2 className='card-money'>{budget} BGN</h2>
-						<a id='card-info'>hover to add budget</a>
+						<h2 className='card-money'>
+							{expenseCurrency === 'USD'
+								? (Number(budget) / usd).toFixed(2)
+								: expenseCurrency === 'EUR'
+								? (Number(budget) / eur).toFixed(2)
+								: Number(budget).toFixed(2)}
+							{expenseCurrency}
+						</h2>
+						<a href='/#' id='card-info'>
+							hover to add budget
+						</a>
 					</div>
 					<div className='flip-card-back'>
 						<form id='form-group' onSubmit={submitHandler}>
 							<label id='income-input-label' htmlFor='income-input'>
-								Enter your current budget.
+								Enter your current budget in BGN.
 							</label>
 							<input
 								value={budget}
@@ -142,7 +187,14 @@ const ExpenseTotal = (props: any) => {
 			</div>
 			<div className='card-container'>
 				<h1 className='card-title'>Balance</h1>
-				<h2 className='card-money'>{+budget - totalExpenses} BGN</h2>
+				<h2 className='card-money'>
+					{expenseCurrency === 'USD'
+						? (Number(budget) / usd - totalExpensesState).toFixed(2)
+						: expenseCurrency === 'EUR'
+						? (Number(budget) / eur - totalExpensesState).toFixed(2)
+						: (Number(budget) - totalExpensesState).toFixed(2)}{' '}
+					{expenseCurrency}
+				</h2>
 			</div>
 		</div>
 	);

@@ -18,6 +18,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 	//State for all expenses, only god knows the types that we are receiving here?!
 	const [expenses, setExpenses] = useState([] as any);
 	const [searchTerm, setSearchTerm] = useState('');
+	const [message, setMessage] = useState('New expenses will appear here.');
 
 	const searchStateHandler = (searchString: React.SetStateAction<string>) => {
 		setSearchTerm(searchString);
@@ -28,6 +29,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 		const q = query(collection(db, 'expenses'), orderBy('created', 'desc'));
 		if (props.appPermissionsState?.read !== undefined) {
 			if (props.appPermissionsState.read) {
+				setMessage('New expenses will appear here.');
 				//Get a dynamic snapshot of the current database
 				onSnapshot(q, (querySnapshot) => {
 					//Set all expenses in state
@@ -40,10 +42,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 				});
 			} else {
 				setExpenses([]);
-				NotificationManager.error(
-					'You have no permissions to list expenses.',
-					'Denied',
-				);
+				setMessage('You have no permission to list expenses.');
 			}
 		} else {
 			setTimeout(waitForElement);
@@ -64,23 +63,27 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 			<button onClick={props.addExpenseWindowHandler} id='add-expense-button'>
 				Add Expense
 			</button>
-			{expenses
-				.filter((expense: { data: { name: string } }) =>
-					expense.data.name.toLowerCase().includes(searchTerm.toLowerCase()),
-				)
-				.map((expense: any) => {
-					//Map over all expenses and provide their data.
-					return (
-						<ExpenseItem
-							appPermissionsState={props.appPermissionsState}
-							updateExpenseWindowHandler={props.updateExpenseWindowHandler}
-							key={expense.id}
-							name={expense.data.name}
-							currency={expense.data.currency}
-							price={expense.data.price}
-							id={expense.id}></ExpenseItem>
-					);
-				})}
+			{expenses.length === 0 ? (
+				<p id='availability-message'>{message}</p>
+			) : (
+				expenses
+					.filter((expense: { data: { name: string } }) =>
+						expense.data.name.toLowerCase().includes(searchTerm.toLowerCase()),
+					)
+					.map((expense: any) => {
+						//Map over all expenses and provide their data.
+						return (
+							<ExpenseItem
+								appPermissionsState={props.appPermissionsState}
+								updateExpenseWindowHandler={props.updateExpenseWindowHandler}
+								key={expense.id}
+								name={expense.data.name}
+								currency={expense.data.currency}
+								price={expense.data.price}
+								id={expense.id}></ExpenseItem>
+						);
+					})
+			)}
 		</div>
 	);
 };
