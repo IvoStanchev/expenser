@@ -25,6 +25,7 @@ const ExpenseSearch: React.FC<search> = (props) => {
 					type='text'
 					value={searchTerm}
 					onChange={searchHandler}
+					autoComplete='off'
 				/>
 			</form>
 		</div>

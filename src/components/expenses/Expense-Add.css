@@ -60,16 +60,16 @@ input:focus::placeholder {
 	text-align: center;
 }
 
-select {
+.slider select {
 	color: #757575;
 	text-align-last: center;
 }
 
-h3 {
+.slider h3 {
 	color: #dfbf15;
 }
 
-label {
+.slider label {
 	color: #dfbf15;
 	font-size: 20px;
 	font-weight: bold;

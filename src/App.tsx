@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+//Notifications
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 //Components
@@ -10,13 +11,14 @@ import ExpenseUpdate from './components/expenses/Expense-Update';
 import ExpensePermissions from './components/expenses/Expense-Permissions';
 
 function App() {
-	//State related to the three slider windows and lifted state from the item component
+	//State related to the three slider windows and lifted state from various components
 	const [windowState, setWindowState] = useState(false);
 	const [updateWindowState, setUpdateWindowState] = useState(false);
 	const [permissionsWindowState, setPermissionsWindowState] = useState(false);
 	const [appPermissionsState, setAllPermissionsState] = useState();
 	const [getExpenses, setGetExpenses] = useState({});
 
+	//Handlers to manage state
 	const permissionsStateHandler = (allPermissions: any) => {
 		setAllPermissionsState(allPermissions);
 	};
@@ -45,7 +47,7 @@ function App() {
 		//Change the state to the opposite of the current state
 		setWindowState(!windowState);
 	};
-	//Open update-expense window slider, also fetch the current expense from the Expense-item component. In any case, the update handler will have to be drilled to the item component to change the status of the slider, so it is easier to take the state of the pressed expense with the same handler.
+	//Open update-expense window slider, also fetch the current expense from the Expense-item component. In any case, the update handler will have to be drilled to the item component to change the status of the slider, so it is easier to take the state of the selected expense with the same handler.
 	const updateExpenseWindowHandler = (forceState: boolean, expenses?: any) => {
 		if (windowState === true || permissionsWindowState === true) {
 			setWindowState(false);
@@ -62,6 +64,7 @@ function App() {
 		//Change the state to the opposite of the current state
 		setUpdateWindowState(!updateWindowState);
 	};
+	//State hell?!
 	return (
 		<div className='app-container'>
 			<Sidebar permissionsWindowHandler={permissionsWindowHandler} />

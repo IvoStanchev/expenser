@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
 import { db } from '../../storage/firebase';
 import { NotificationManager } from 'react-notifications';
+import ExpenseTotal from './Expense-Total';
 
 interface expenseProps {
 	addExpenseWindowHandler;
@@ -57,6 +58,9 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 	return (
 		<div className='product-list-container'>
 			<ExpenseSearch searchStateHandler={searchStateHandler}></ExpenseSearch>
+			<ExpenseTotal
+				expenses={expenses}
+				appPermissionsState={props.appPermissionsState}></ExpenseTotal>
 			<button onClick={props.addExpenseWindowHandler} id='add-expense-button'>
 				Add Expense
 			</button>

@@ -72,7 +72,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 		//Form field reset
 		setExpenseName('');
 		setExpensePrice(0);
-		setExpenseCurrency('');
+		setExpenseCurrency('BGN');
 	};
 
 	return (
