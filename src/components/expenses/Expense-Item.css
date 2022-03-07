@@ -132,9 +132,11 @@
 
 	#date {
 		display: flex;
-		font-size: 0.6vh;
+		font-size: 5px;
+		font-weight: bold;
 		opacity: 0.5;
 		font-family: inherit;
+		letter-spacing: 2px;
 	}
 
 	#product-name {
