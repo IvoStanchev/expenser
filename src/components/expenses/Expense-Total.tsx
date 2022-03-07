@@ -14,6 +14,7 @@ const ExpenseTotal = (props: any) => {
 	const [budget, setBudget] = useState('');
 	const [expenseCurrency, setExpenseCurrency] = useState('BGN');
 	const [totalExpensesState, setTotalExpensesState] = useState(0);
+
 	const q = query(collection(db, 'budget'));
 	const taskDocRef = doc(db, 'budget', 'qkwchA3krxNADr8dRGBP');
 	const usd = 1.79;
@@ -64,7 +65,6 @@ const ExpenseTotal = (props: any) => {
 			});
 		}
 	};
-
 	const currencyChangeHandler = (currency: string) => {
 		setExpenseCurrency(currency);
 		if (currency === 'USD') {
@@ -98,7 +98,6 @@ const ExpenseTotal = (props: any) => {
 				'Denied',
 			);
 		}
-
 		//Get a dynamic snapshot of the current database
 		onSnapshot(q, (querySnapshot) => {
 			//Set all expenses in state
@@ -119,9 +118,14 @@ const ExpenseTotal = (props: any) => {
 	return (
 		<div className='total-box-container'>
 			<div className='card-container'>
-				<h1 className='card-title'>Total expenses</h1>
+				<h1 className='card-title'>Current balance</h1>
 				<h2 className='card-money'>
-					{totalExpensesState.toFixed(2)} {expenseCurrency}
+					{expenseCurrency === 'USD'
+						? (Number(budget) / usd - totalExpensesState).toFixed(2)
+						: expenseCurrency === 'EUR'
+						? (Number(budget) / eur - totalExpensesState).toFixed(2)
+						: (Number(budget) - totalExpensesState).toFixed(2)}{' '}
+					{expenseCurrency}
 				</h2>
 				<div id='currency-convert-buttons'>
 					<a
@@ -186,15 +190,52 @@ const ExpenseTotal = (props: any) => {
 				</div>
 			</div>
 			<div className='card-container'>
-				<h1 className='card-title'>Current balance</h1>
+				<h1 className='card-title'>Total expenses</h1>
 				<h2 className='card-money'>
-					{expenseCurrency === 'USD'
-						? (Number(budget) / usd - totalExpensesState).toFixed(2)
-						: expenseCurrency === 'EUR'
-						? (Number(budget) / eur - totalExpensesState).toFixed(2)
-						: (Number(budget) - totalExpensesState).toFixed(2)}{' '}
-					{expenseCurrency}
+					{totalExpensesState.toFixed(2)} {expenseCurrency}
 				</h2>
+				<div id='sort'>
+					<a
+						href='/#'
+						onClick={() => {
+							props.sortHandler('price', 'asc');
+						}}>
+						price{' '}
+						<span className='arrow'>
+							<>&uarr;</>
+						</span>
+					</a>
+					<a
+						href='/#'
+						onClick={() => {
+							props.sortHandler('price', 'desc');
+						}}>
+						price{' '}
+						<span className='arrow'>
+							<>&darr;</>
+						</span>
+					</a>
+					<a
+						href='/#'
+						onClick={() => {
+							props.sortHandler('name', 'asc');
+						}}>
+						name{' '}
+						<span className='arrow'>
+							<>&uarr;</>
+						</span>
+					</a>
+					<a
+						onClick={() => {
+							props.sortHandler('name', 'desc');
+						}}
+						href='/#'>
+						name{' '}
+						<span className='arrow'>
+							<>&darr;</>
+						</span>
+					</a>
+				</div>
 			</div>
 		</div>
 	);

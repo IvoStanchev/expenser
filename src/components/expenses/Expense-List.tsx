@@ -19,10 +19,40 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 	const [expenses, setExpenses] = useState([] as any);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [message, setMessage] = useState('New expenses will appear here.');
+	const [sortState, setSortState] = useState([] as any);
+
+	let sortHandler = (sortBy: string, sortDirection: string) => {
+		setSortState([sortBy, sortDirection]);
+	};
 
 	const searchStateHandler = (searchString: React.SetStateAction<string>) => {
 		setSearchTerm(searchString);
 	};
+	function sortList(type: string, sortDirection: string) {
+		if (type === 'name') {
+			if (sortDirection === 'asc') {
+				expenses.sort((a, b) => {
+					return a.data.name.localeCompare(b.data.name);
+				});
+			} else {
+				expenses.sort((a, b) => {
+					return b.data.name.localeCompare(a.data.name);
+				});
+			}
+		} else {
+			if (sortDirection === 'desc') {
+				expenses.sort((a, b) => {
+					return b.data.price - a.data.price;
+				});
+			} else {
+				expenses.sort((a, b) => {
+					return a.data.price - b.data.price;
+				});
+			}
+		}
+	}
+
+	sortList(sortState[0], sortState[1]);
 
 	const waitForElement = () => {
 		//Define the query to be used in firestore and retrieve as descending.
@@ -58,6 +88,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 		<div className='product-list-container'>
 			<ExpenseSearch searchStateHandler={searchStateHandler}></ExpenseSearch>
 			<ExpenseTotal
+				sortHandler={sortHandler}
 				expenses={expenses}
 				appPermissionsState={props.appPermissionsState}></ExpenseTotal>
 			<button onClick={props.addExpenseWindowHandler} id='add-expense-button'>
