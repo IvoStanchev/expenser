@@ -49,9 +49,10 @@
 
 @media only screen and (max-width: 600px) {
 	#add-expense-button {
-		padding: 1vh 10vh 1vh 10vh;
+		padding: 1vh 5vh 1vh 5vh;
 		font-size: 14px;
 		width: 70%;
+		margin: auto;
 	}
 
 	#form-input {

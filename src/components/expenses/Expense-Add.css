@@ -98,9 +98,9 @@ input:focus::placeholder {
 	margin: 0px 20px 0px 0px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) and (max-height: 850px) {
 	h3 {
-		font-size: 14px;
+		font-size: 1vh;
 		font-weight: bold;
 	}
 
@@ -114,6 +114,12 @@ input:focus::placeholder {
 		font-size: 16px;
 		font-family: inherit;
 		font-weight: 500;
+	}
+
+	#close-item {
+		position: absolute;
+		right: 0;
+		margin: 0px 40px 0px 0px;
 	}
 }
 

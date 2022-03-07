@@ -151,7 +151,7 @@ const ExpenseTotal = (props: any) => {
 					</a>
 				</div>
 			</div>
-			<div className='flip-card'>
+			<div className='card-container'>
 				<div className='flip-card-inner'>
 					<div className='flip-card-front'>
 						<h1 className='card-title'>Monthly budget</h1>

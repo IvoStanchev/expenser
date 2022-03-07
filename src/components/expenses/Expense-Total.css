@@ -1,3 +1,4 @@
+/* Full container with all cards*/
 .total-box-container {
 	display: flex;
 	width: 75%;
@@ -9,42 +10,7 @@
 	margin-bottom: 3vh;
 }
 
-#currency-convert-buttons {
-	display: flex;
-	gap: 50px;
-}
-
-#currency-convert-buttons a {
-	text-decoration: none;
-	color: #dfbf14;
-	font-style: italic;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.5s;
-}
-
-#currency-convert-buttons a:hover {
-	transform: scale(2);
-	-webkit-transform: scale(2);
-}
-
-#sort {
-	display: flex;
-	width: 90%;
-	height: 100%;
-	justify-content: space-around;
-}
-
-#sort a {
-	color: #dfbf14;
-	text-decoration: none;
-	font-style: italic;
-}
-
-.arrow {
-	font-style: normal;
-}
-
+/* Single card without flip */
 .card-container {
 	display: flex;
 	flex-direction: column;
@@ -60,62 +26,14 @@
 		0 16px 16px rgba(0, 0, 0, 0.12);
 }
 
-.card-title {
-	font-size: 2vh;
-}
-
-#button-combo {
-	display: flex;
-	justify-content: space-around;
-}
-
-#add-funds-button {
-	outline: none;
-	border: none;
-	border-radius: 3px;
-	background-color: rgb(77, 77, 77);
-	color: #dfbf14;
-	margin-top: 10px;
-	width: 40%;
-	height: 30px;
-}
-
-.form-group {
-	display: flex;
-	flex-direction: column;
-}
-
-#income-input {
-	resize: none;
-	outline: none;
-	width: 70%;
-	height: 25%;
-	border: none;
-	border-radius: 3px;
-	text-align: center;
-}
-#income-input-label {
-	font-weight: bold;
-	color: white;
-}
-#card-info {
-	color: #dfbf14;
-	font-style: italic;
-	font-weight: 500;
-	text-decoration: none;
-}
-
-.card-money {
-	font-style: inherit;
-	font-size: 2.7vh;
-}
-
-.flip-card {
-	width: 25%;
-	border-radius: 9px;
+/* Center card with flip */
+.card-container:nth-child(2) {
 	background-color: transparent;
 	height: 100%;
 	perspective: 1000px;
+}
+.card-container:nth-child(2):hover .flip-card-inner {
+	transform: rotateY(180deg);
 }
 
 .flip-card-inner {
@@ -126,10 +44,6 @@
 	text-align: center;
 	transition: transform 0.6s;
 	transform-style: preserve-3d;
-}
-
-.flip-card:hover .flip-card-inner {
-	transform: rotateY(180deg);
 }
 
 .flip-card-front,
@@ -163,4 +77,145 @@
 	background-color: #8a7811;
 	color: black;
 	transform: rotateY(180deg);
+}
+
+/* inner styling */
+.arrow {
+	font-style: normal;
+}
+.card-title {
+	font-size: 2vh;
+}
+.form-group {
+	display: flex;
+	flex-direction: column;
+}
+.card-money {
+	font-style: inherit;
+	font-size: 2.7vh;
+}
+
+/* mainly buttons */
+#currency-convert-buttons {
+	display: flex;
+	gap: 2.5vh;
+}
+
+#currency-convert-buttons a {
+	text-decoration: none;
+	color: #dfbf14;
+	font-style: italic;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.5s;
+}
+#currency-convert-buttons a:hover {
+	transform: scale(2);
+	-webkit-transform: scale(2);
+}
+#sort {
+	display: flex;
+	width: 90%;
+	height: 100%;
+	justify-content: space-around;
+}
+#sort a {
+	color: #dfbf14;
+	text-decoration: none;
+	font-style: italic;
+}
+
+/* The add and reset buttons on the back side of the flip card */
+#button-combo {
+	display: flex;
+	justify-content: space-around;
+}
+
+#add-funds-button {
+	outline: none;
+	border: none;
+	border-radius: 3px;
+	background-color: rgb(77, 77, 77);
+	color: #dfbf14;
+	margin-top: 10px;
+	width: 40%;
+	height: 30px;
+}
+#income-input {
+	resize: none;
+	outline: none;
+	width: 70%;
+	height: 25%;
+	border: none;
+	border-radius: 3px;
+	text-align: center;
+}
+#income-input-label {
+	font-weight: bold;
+	color: white;
+}
+#card-info {
+	color: #dfbf14;
+	font-style: italic;
+	font-weight: 500;
+	text-decoration: none;
+}
+
+@media only screen and (max-width: 600px) and (max-height: 850px) {
+	.total-box-container {
+		width: 95%;
+		min-height: 9vh;
+		margin-bottom: auto;
+	}
+
+	.card-container {
+		width: 30%;
+		font-size: 0.5vh;
+		height: 100%;
+	}
+
+	/* inner styling */
+	.arrow {
+		font-style: normal;
+	}
+	.card-title {
+		font-size: 1vh;
+	}
+	.form-group {
+		display: flex;
+		flex-direction: column;
+	}
+	.card-money {
+		font-style: inherit;
+		font-size: 1.5vh;
+	}
+
+	#card-info {
+		color: #dfbf14;
+		font-style: italic;
+		font-weight: 500;
+		text-decoration: none;
+		font-size: 0.6vh;
+	}
+
+	#sort a {
+		font-size: 1.25em;
+	}
+
+	#income-input-label {
+		font-weight: normal;
+		font-size: 1vh;
+	}
+
+	#add-funds-button {
+		width: 4vh;
+		height: 2vh;
+		font-size: 1vh;
+		margin: auto;
+	}
+
+	#income-input {
+		height: 10%;
+		font-size: 1vh;
+	}
 }
