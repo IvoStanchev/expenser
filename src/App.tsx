@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 //Notifications
 import { NotificationContainer } from 'react-notifications';
@@ -22,7 +22,6 @@ function App() {
 	const permissionsStateHandler = (allPermissions: any) => {
 		//Permission for all components :D
 		setAppPermissionsState(allPermissions);
-		console.log(allPermissions);
 	};
 
 	//Slider for permission window
@@ -94,6 +93,7 @@ function App() {
 				updateWindowState={updateWindowState}
 				updateExpenseWindowHandler={updateExpenseWindowHandler}></ExpenseUpdate>
 			<ExpensePermissions
+			getExpenses={getExpenses}
 				permissionsStateHandler={permissionsStateHandler}
 				permissionsWindowState={permissionsWindowState}
 				permissionsWindowHandler={permissionsWindowHandler}></ExpensePermissions>

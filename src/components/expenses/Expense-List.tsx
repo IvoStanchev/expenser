@@ -21,6 +21,14 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [message, setMessage] = useState('New expenses will appear here.');
 	const [sortState, setSortState] = useState([] as any);
+	useEffect(() => {
+		setMessage('New expenses will appear here.');
+		onRetrieve(setExpenses);
+
+		if (props.appPermissionsState.read) {
+			setMessage('You have no permission to list expenses.');
+		}
+	}, [props.appPermissionsState]);
 
 	//Sets a state for the sort and sort direction. !! This needs work.
 	let sortHandler = (sortBy: string, sortDirection: string) => {
@@ -32,26 +40,6 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 	const searchStateHandler = (searchString: React.SetStateAction<string>) => {
 		setSearchTerm(searchString);
 	};
-
-	const waitForElement = () => {
-		// if (props.appPermissionsState?.read !== undefined) {
-		if (props.appPermissionsState.read) {
-			setMessage('New expenses will appear here.');
-			onRetrieve(setExpenses);
-		} else {
-			setExpenses([]);
-			setMessage('You have no permission to list expenses.');
-		}
-		// } else {
-		// 	setTimeout(() => {
-		// 		waitForElement();
-		// 	}, 250);
-		// }
-	};
-
-	useEffect(() => {
-		waitForElement();
-	}, [props.appPermissionsState, expenses]);
 
 	return (
 		<div className='product-list-container'>
@@ -72,6 +60,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 			{expenses.length === 0 ? (
 				<p id='availability-message'>{message}</p>
 			) : (
+				props.appPermissionsState.read &&
 				expenses
 					.filter((expense: { data: { name: string } }) =>
 						expense.data.name.toLowerCase().includes(searchTerm.toLowerCase()),

@@ -23,11 +23,11 @@ export const onPopulate = (expenseData: ExpenseData, expenseName: string) => {
 };
 
 //Delete expense from the database
-export const onDelete = async (id: string, property: string) => {
+export const onDelete = (id: string, property: string) => {
 	const documentReference = doc(db, 'expenses', id);
 	try {
 		//Delete the reference
-		await deleteDoc(documentReference);
+		deleteDoc(documentReference);
 		onSuccess('delete', property);
 	} catch (err) {
 		onError('db_issue', err);
@@ -38,6 +38,7 @@ export const onDelete = async (id: string, property: string) => {
 export const onRetrieve = (setExpenses: any) => {
 	const q = query(collection(db, 'expenses'), orderBy('created', 'desc'));
 	//Get a dynamic snapshot of the current database
+
 	onSnapshot(q, (querySnapshot) => {
 		//Set all expenses in state
 		setExpenses(

@@ -7,6 +7,7 @@ interface permissionsProps {
 	permissionsWindowHandler(forceState: boolean);
 	permissionsWindowState: boolean;
 	permissionsStateHandler(allPermissions: any);
+	getExpenses: any;
 }
 
 const ExpensePermissions: React.FC<permissionsProps> = (props) => {
@@ -15,24 +16,6 @@ const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 	const [readState, setReadState] = useState(false);
 	const [updateState, setUpdateState] = useState(false);
 	const [deleteState, setDeleteState] = useState(false);
-
-	//Handlers for each permission button.
-	const createHandler = (permission: boolean) => {
-		setCreateState(permission);
-		updatePermissionData('CREATE', permission, createState);
-	};
-	const readHandler = (permission: boolean) => {
-		setReadState(readState);
-		updatePermissionData('READ', permission, readState);
-	};
-	const updateHandler = (permission: boolean) => {
-		setUpdateState(permission);
-		updatePermissionData('UPDATE', permission, updateState);
-	};
-	const deleteHandler = (permission: boolean) => {
-		setDeleteState(permission);
-		updatePermissionData('DELETE', permission, deleteState);
-	};
 
 	//Update the database with the desired permission.
 	const updatePermissionData = (
@@ -55,6 +38,24 @@ const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 		}
 	};
 
+	//Handlers for each permission button.
+	const createHandler = (permission: boolean) => {
+		setCreateState(permission);
+		updatePermissionData('CREATE', permission, createState);
+	};
+	const readHandler = (permission: boolean) => {
+		setReadState(readState);
+		updatePermissionData('READ', permission, readState);
+	};
+	const updateHandler = (permission: boolean) => {
+		setUpdateState(permission);
+		updatePermissionData('UPDATE', permission, updateState);
+	};
+	const deleteHandler = (permission: boolean) => {
+		setDeleteState(permission);
+		updatePermissionData('DELETE', permission, deleteState);
+	};
+
 	let allPermissions = {
 		create: createState,
 		read: readState,
@@ -70,7 +71,8 @@ const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 			setUpdateState,
 			setDeleteState,
 		);
-		props.permissionsStateHandler(allPermissions); //Used to lift the permission state up the parent component and distribute it to other components.
+		props.permissionsStateHandler(allPermissions);
+		//Used to lift the permission state up the parent component and distribute it to other components.
 	}, [createState, readState, updateState, deleteState]);
 
 	return (
