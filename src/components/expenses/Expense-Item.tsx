@@ -29,7 +29,7 @@ const ExpenseItem: React.FC<ExpenseItemProps> = (props) => {
 	const hour = t.getHours();
 	const minutes = t.getMinutes();
 
-	const date = `| ${day}.0${month} ${hour}:${minutes}`;
+	const date = `${day}.0${month} ${hour}:${minutes}`;
 
 	return (
 		<div className='product-container'>

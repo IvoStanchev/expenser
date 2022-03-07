@@ -130,9 +130,18 @@
 		height: 9vh;
 	}
 
+	#date {
+		display: flex;
+		font-size: 0.6vh;
+		opacity: 0.5;
+		font-family: inherit;
+	}
+
 	#product-name {
+		white-space: nowrap;
 		font-size: 16px;
 		font-weight: 500;
+		letter-spacing: -1px;
 	}
 
 	#product-gear-icon {
@@ -147,7 +156,7 @@
 	#product-price p {
 		float: left;
 		width: 100%;
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: normal;
 	}
 
@@ -155,7 +164,7 @@
 		text-align: right;
 		margin: 0;
 		width: 20%;
-		min-width: 25%;
+		min-width: 10%;
 	}
 
 	#svg-gear-product {
