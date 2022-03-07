@@ -36,10 +36,13 @@ export const onDelete = (id: string, property: string) => {
 
 //Fetch all expenses from the database
 export const onRetrieve = (setExpenses: any) => {
-	const q = query(collection(db, 'expenses'), orderBy('created', 'desc'));
+	const documentReference = query(
+		collection(db, 'expenses'),
+		orderBy('created', 'desc'),
+	);
 	//Get a dynamic snapshot of the current database
 
-	onSnapshot(q, (querySnapshot) => {
+	onSnapshot(documentReference, (querySnapshot) => {
 		//Set all expenses in state
 		setExpenses(
 			querySnapshot.docs.map((doc) => ({
@@ -57,9 +60,9 @@ export const onEdit = (
 	expenseCurrency: string,
 	id: string,
 ) => {
-	const taskDocRef = doc(db, 'expenses', id);
+	const documentReference = doc(db, 'expenses', id);
 	try {
-		updateDoc(taskDocRef, {
+		updateDoc(documentReference, {
 			//Pass the reference with the updates from the form.
 			name: expenseName,
 			price: expensePrice,
@@ -73,9 +76,9 @@ export const onEdit = (
 
 //Update permission in the database
 export const onUpdate = (type: string, desiredState?: boolean) => {
-	const taskDocRef = doc(db, 'CRUD', 'FQWwb7ntGMfccmwU78S8');
+	const documentReference = doc(db, 'CRUD', 'FQWwb7ntGMfccmwU78S8');
 
-	updateDoc(taskDocRef, {
+	updateDoc(documentReference, {
 		//Pass the reference with the updates from the buttons.
 		[type]: desiredState,
 	});
@@ -89,10 +92,10 @@ export const fetchPermissionState = (
 	setDeleteState,
 ) => {
 	//Define the query to be used in firestore.
-	const q = query(collection(db, 'CRUD'));
+	const documentReference = query(collection(db, 'CRUD'));
 
 	//Get a dynamic snapshot of the current database
-	onSnapshot(q, (querySnapshot) => {
+	onSnapshot(documentReference, (querySnapshot) => {
 		//Set all expenses in state
 		querySnapshot.docs.map((doc) => {
 			setCreateState(doc.data().CREATE);
@@ -109,12 +112,12 @@ export const manageBudget = (
 	action: string,
 	setBudget?: any,
 ) => {
-	const taskDocRef = doc(db, 'budget', 'qkwchA3krxNADr8dRGBP');
+	const documentReference = doc(db, 'budget', 'qkwchA3krxNADr8dRGBP');
 	const q = query(collection(db, 'budget'));
 
 	if (action === 'reset') {
 		try {
-			updateDoc(taskDocRef, {
+			updateDoc(documentReference, {
 				//reset the budget
 				//Pass the reference with the updates from the form.
 				budget: budget,
@@ -125,7 +128,7 @@ export const manageBudget = (
 		}
 	} else if (action === 'add') {
 		try {
-			updateDoc(taskDocRef, {
+			updateDoc(documentReference, {
 				//Update the budget
 				//Pass the reference with the updates from the form.
 				budget: budget,

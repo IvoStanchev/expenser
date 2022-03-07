@@ -1,6 +1,7 @@
 export const usd = 1.79;
 export const eur = 1.96;
 
+//Calculate the total expenses for the three budget boxes
 export const totalExpenses = (expenses) => {
 	return expenses.reduce(
 		(

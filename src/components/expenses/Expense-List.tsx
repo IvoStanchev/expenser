@@ -5,7 +5,6 @@ import ExpenseSearch from './Expense-Search';
 import ExpenseTotal from './Expense-Total';
 //Hooks
 import { useState, useEffect } from 'react';
-import { sortList } from '../hooks/sort';
 import { onRetrieve } from '../hooks/database';
 import { onError } from '../hooks/notifications';
 
@@ -21,6 +20,7 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [message, setMessage] = useState('New expenses will appear here.');
 	const [sortState, setSortState] = useState([] as any);
+
 	useEffect(() => {
 		setMessage('New expenses will appear here.');
 		onRetrieve(setExpenses);
@@ -34,7 +34,6 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 	let sortHandler = (sortBy: string, sortDirection: string) => {
 		setSortState([sortBy, sortDirection]);
 	};
-	sortList(sortState[0], sortState[1], expenses);
 
 	//The search handler fetches the input from the SearchComponent and sets a state which is then used to filter the original expense list in JSX
 	const searchStateHandler = (searchString: React.SetStateAction<string>) => {
@@ -65,21 +64,26 @@ const ExpenseList: React.FC<expenseProps> = (props) => {
 					.filter((expense: { data: { name: string } }) =>
 						expense.data.name.toLowerCase().includes(searchTerm.toLowerCase()),
 					)
-					.sort((a, b) => {
-						if (sortState[0] === 'date') {
-							if (sortState[1] === 'asc') {
-								return a.data.created.seconds - b.data.created.seconds;
-							} else if (sortState[1] === 'desc') {
-								return b.data.created.seconds - a.data.created.seconds;
+					.sort(
+						(
+							a: { data: { created: { seconds: number }; price: number } },
+							b: { data: { created: { seconds: number }; price: number } },
+						) => {
+							if (sortState[0] === 'date') {
+								if (sortState[1] === 'asc') {
+									return a.data.created.seconds - b.data.created.seconds;
+								} else if (sortState[1] === 'desc') {
+									return b.data.created.seconds - a.data.created.seconds;
+								}
+							} else {
+								if (sortState[1] === 'desc') {
+									return b.data.price - a.data.price;
+								} else if (sortState[1] === 'asc') {
+									return a.data.price - b.data.price;
+								}
 							}
-						} else {
-							if (sortState[1] === 'desc') {
-								return b.data.price - a.data.price;
-							} else if (sortState[1] === 'asc') {
-								return a.data.price - b.data.price;
-							}
-						}
-					})
+						},
+					)
 					.map((expense: any) => {
 						//Map over all expenses and provide their data.
 						return (

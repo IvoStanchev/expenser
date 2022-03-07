@@ -1,6 +1,6 @@
 import './Expense-Update.css';
 import React, { useEffect, useState } from 'react';
-import { onError, onValidate } from '../hooks/notifications';
+import { onValidate } from '../hooks/notifications';
 import { onEdit } from '../hooks/database';
 
 interface ExpenseUpdateProps {

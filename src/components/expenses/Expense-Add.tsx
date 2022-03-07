@@ -43,9 +43,10 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 		//Prepare all expense data from state into an object
 		const expenseData: ExpenseData = {
 			name: expenseName,
-			price: Math.abs(+expensePrice).toFixed(2), //Remove negative values, fix the number to 2nd decimal.
+			price: Math.abs(+expensePrice).toFixed(2),
 			currency: expenseCurrency.toUpperCase(),
 			created: Timestamp.now(),
+			id: '',
 		};
 		//Add the expenseData to the database
 

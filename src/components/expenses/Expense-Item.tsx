@@ -1,11 +1,9 @@
 import './Expense-Item.css';
-import { ExpenseProps } from '../interface/interface';
+import { ExpenseData } from '../interface/interface';
 import { onDelete } from '../hooks/database';
 import { onError } from '../hooks/notifications';
 
-import { useEffect } from 'react';
-
-interface ExpenseItemProps extends ExpenseProps {
+interface ExpenseItemProps extends ExpenseData {
 	updateExpenseWindowHandler(forceState: boolean, expenses?: any);
 	appPermissionsState: any;
 	created: any;
