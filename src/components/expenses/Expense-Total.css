@@ -206,7 +206,8 @@
 	}
 
 	#sort a {
-		font-size: 1.25em;
+		font-size: 1.3em;
+		font-weight: bold;
 	}
 
 	#income-input-label {
@@ -224,5 +225,9 @@
 	#income-input {
 		height: 10%;
 		font-size: 1vh;
+	}
+
+	#currency-convert-buttons a {
+		font-size: 8px;
 	}
 }
