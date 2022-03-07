@@ -100,6 +100,17 @@
 		font-size: 14px;
 		font-weight: bold;
 	}
+	.update-slider {
+		height: 55%;
+		width: 95%;
+		left: 0;
+	}
+
+	.update-slider #close-item {
+		position: absolute;
+		right: 0;
+		margin: auto 3vh auto auto;
+	}
 
 	.update-item-form-control {
 		width: 80%;

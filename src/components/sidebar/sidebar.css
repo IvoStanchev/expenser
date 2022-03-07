@@ -70,4 +70,11 @@ svg {
 		font-weight: bold;
 		font-size: 3vh;
 	}
+
+	#svg-gear-permissions {
+		position: relative;
+		margin: auto auto 170px auto;
+		padding-bottom: 20px;
+		width: 3vh;
+	}
 }
