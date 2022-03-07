@@ -16,6 +16,14 @@ The app allows you to list, add, edit and delete expenses and track your monthly
 
 - react-notifications - https://www.npmjs.com/package/react-notifications
 
+## How to use.
+
+        - Use the add expense button to add a new purchase
+        - The sidebar is clickable and will provide the permission menu
+        - The gear icon on each product opens a slide window with a form to edit
+        - Center flip card can add funds
+        - Other buttons change th ecurrency and soring of the lits.
+
 ## Features
 
 - List, Add, Delete, Edit expenses. Expenses contain Name, Date, Price and Currency;
