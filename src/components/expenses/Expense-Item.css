@@ -23,6 +23,12 @@
 	stroke: #dfbf15;
 }
 
+#date {
+	font-size: 2.5vh;
+	opacity: 0.5;
+	font-family: inherit;
+}
+
 #product-price {
 	width: 15%;
 	border-radius: 9px 0px 0px 9px;

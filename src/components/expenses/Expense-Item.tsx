@@ -2,7 +2,8 @@ import './Expense-Item.css';
 import { ExpenseProps } from '../interface/interface';
 import { onDelete } from '../hooks/database';
 import { onError } from '../hooks/notifications';
-import { Timestamp } from 'firebase/firestore';
+
+import { useEffect } from 'react';
 
 interface ExpenseItemProps extends ExpenseProps {
 	updateExpenseWindowHandler(forceState: boolean, expenses?: any);
@@ -20,10 +21,22 @@ const ExpenseItem: React.FC<ExpenseItemProps> = (props) => {
 		}
 	};
 
+	var t = new Date(1970, 0, 1); // Epoch
+	t.setSeconds(props.created.seconds);
+
+	const day = t.getDate();
+	const month = t.getMonth() + 1;
+	const hour = t.getHours();
+	const minutes = t.getMinutes();
+
+	const date = `| ${day}.0${month} ${hour}:${minutes}`;
+
 	return (
 		<div className='product-container'>
 			<div id='product-name' className='product-item'>
-				<p>{props.name}</p>
+				<p>
+					{props.name} <span id='date'>{date}</span>
+				</p>
 			</div>
 			<div id='product-price' className='product-item'>
 				<p>{props.price + ' ' + props.currency}</p>

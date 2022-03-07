@@ -19,17 +19,19 @@ const ExpenseSearch: React.FC<search> = (props) => {
 	}, [searchTerm]);
 
 	return (
-		<div className='form-container'>
-			<form className='form-group' action=''>
-				<input
-					placeholder='Search your expense here...'
-					id='form-input'
-					type='text'
-					value={searchTerm}
-					onChange={searchHandler}
-					autoComplete='off'
-				/>
-			</form>
+		<div>
+			<div className='form-container'>
+				<form className='form-group' action=''>
+					<input
+						placeholder='Search your expense here...'
+						id='form-input'
+						type='text'
+						value={searchTerm}
+						onChange={searchHandler}
+						autoComplete='off'
+					/>
+				</form>
+			</div>
 		</div>
 	);
 };
