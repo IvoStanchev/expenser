@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 //Notifications
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 //Components
-import Sidebar from './components/sidebar/sidebar';
+import Sidebar from './components/expenses/sidebar/sidebar';
 import ExpenseList from './components/expenses/Expense-List';
 import ExpenseAdd from './components/expenses/Expense-Add';
 import ExpenseUpdate from './components/expenses/Expense-Update';
@@ -15,13 +15,17 @@ function App() {
 	const [windowState, setWindowState] = useState(false);
 	const [updateWindowState, setUpdateWindowState] = useState(false);
 	const [permissionsWindowState, setPermissionsWindowState] = useState(false);
-	const [appPermissionsState, setAllPermissionsState] = useState();
+	const [appPermissionsState, setAppPermissionsState] = useState({});
 	const [getExpenses, setGetExpenses] = useState({});
 
-	//Handlers to manage state
+	//++++++Handlers to manage window and permissions++++++
 	const permissionsStateHandler = (allPermissions: any) => {
-		setAllPermissionsState(allPermissions);
+		//Permission for all components :D
+		setAppPermissionsState(allPermissions);
+		console.log(allPermissions);
 	};
+
+	//Slider for permission window
 	const permissionsWindowHandler = (forceState: boolean) => {
 		if (windowState === true || updateWindowState === true) {
 			setWindowState(false);
@@ -78,7 +82,6 @@ function App() {
 			{/*- Pass the windows state for the add expense component so we can show the slider conditionally
 			   - Pass the add expense handler to be used for closing the slider by pressing the "X" button */}
 			<ExpenseAdd
-				appPermissionsState={appPermissionsState}
 				windowState={windowState}
 				addExpenseWindowHandler={addExpenseWindowHandler}></ExpenseAdd>
 

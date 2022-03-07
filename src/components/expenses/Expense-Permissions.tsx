@@ -1,14 +1,7 @@
 import './Expense-Permissions.css';
 import { useState, useEffect } from 'react';
-import {
-	collection,
-	doc,
-	onSnapshot,
-	query,
-	updateDoc,
-} from 'firebase/firestore';
-import { db } from '../../storage/firebase';
-import { NotificationManager } from 'react-notifications';
+import { onUpdate, fetchPermissionState } from '../hooks/database';
+import { onSuccess, onError, onValidate } from '../hooks/notifications';
 
 interface permissionsProps {
 	permissionsWindowHandler(forceState: boolean);
@@ -17,10 +10,50 @@ interface permissionsProps {
 }
 
 const ExpensePermissions: React.FC<permissionsProps> = (props) => {
-	const [createState, setCreateState] = useState(true);
-	const [readState, setReadState] = useState(undefined);
-	const [updateState, setUpdateState] = useState(true);
-	const [deleteState, setDeleteState] = useState(true);
+	//Permission states
+	const [createState, setCreateState] = useState(false);
+	const [readState, setReadState] = useState(false);
+	const [updateState, setUpdateState] = useState(false);
+	const [deleteState, setDeleteState] = useState(false);
+
+	//Handlers for each permission button.
+	const createHandler = (permission: boolean) => {
+		setCreateState(permission);
+		updatePermissionData('CREATE', permission, createState);
+	};
+	const readHandler = (permission: boolean) => {
+		setReadState(readState);
+		updatePermissionData('READ', permission, readState);
+	};
+	const updateHandler = (permission: boolean) => {
+		setUpdateState(permission);
+		updatePermissionData('UPDATE', permission, updateState);
+	};
+	const deleteHandler = (permission: boolean) => {
+		setDeleteState(permission);
+		updatePermissionData('DELETE', permission, deleteState);
+	};
+
+	//Update the database with the desired permission.
+	const updatePermissionData = (
+		type: string,
+		desiredState: boolean,
+		currentState: boolean | undefined,
+	) => {
+		if (desiredState !== currentState) {
+			//Check if this permission is already set
+			try {
+				onUpdate(type, desiredState); //Update the database with the new permission
+				desiredState
+					? onSuccess('specific_permission', type)
+					: onError('specific_permission', undefined, type);
+			} catch (err) {
+				onError('db_issue', err);
+			}
+		} else {
+			onValidate('specific_permission', type);
+		}
+	};
 
 	let allPermissions = {
 		create: createState,
@@ -29,64 +62,16 @@ const ExpensePermissions: React.FC<permissionsProps> = (props) => {
 		delete: deleteState,
 	};
 
-	const createHandler = (permission: boolean) => {
-		updateData('CREATE', permission, createState);
-	};
-	const readHandler = (permission: boolean) => {
-		updateData('READ', permission, readState);
-	};
-	const updateHandler = (permission: boolean) => {
-		updateData('UPDATE', permission, updateState);
-	};
-	const deleteHandler = (permission: boolean) => {
-		updateData('DELETE', permission, deleteState);
-	};
-
-	//Fetch all permissions from the database and set them in state
+	//Fetch all permissions from the database and set them in state.
 	useEffect(() => {
-		function fetchInitState() {
-			//Define the query to be used in firestore.
-			const q = query(collection(db, 'CRUD'));
-
-			//Get a dynamic snapshot of the current database
-			onSnapshot(q, (querySnapshot) => {
-				//Set all expenses in state
-				querySnapshot.docs.map((doc) => {
-					setCreateState(doc.data().CREATE);
-					setReadState(doc.data().READ);
-					setUpdateState(doc.data().UPDATE);
-					setDeleteState(doc.data().DELETE);
-				});
-			});
-			props.permissionsStateHandler(allPermissions);
-		}
-		fetchInitState();
+		fetchPermissionState(
+			setCreateState,
+			setReadState,
+			setUpdateState,
+			setDeleteState,
+		);
+		props.permissionsStateHandler(allPermissions); //Used to lift the permission state up the parent component and distribute it to other components.
 	}, [createState, readState, updateState, deleteState]);
-
-	const updateData = async (
-		type: string,
-		desiredState: boolean,
-		currentState: boolean | undefined,
-	) => {
-		const taskDocRef = doc(db, 'CRUD', 'FQWwb7ntGMfccmwU78S8');
-		if (desiredState !== currentState) {
-			try {
-				updateDoc(taskDocRef, {
-					//Pass the reference with the updates from the buttons.
-					[type]: desiredState,
-				});
-				desiredState
-					? NotificationManager.success(`Allowed`, `${type} permissions`)
-					: NotificationManager.error(`Denied`, `${type} permissions`);
-			} catch (err) {
-				NotificationManager.error('Could not update', 'Click me!', 5000, () => {
-					alert(err);
-				});
-			}
-		} else {
-			NotificationManager.warning(`Already set`, `${type} permissions`);
-		}
-	};
 
 	return (
 		<div

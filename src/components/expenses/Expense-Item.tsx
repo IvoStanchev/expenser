@@ -1,36 +1,22 @@
 import './Expense-Item.css';
 import { ExpenseProps } from '../interface/interface';
-import { doc, deleteDoc } from 'firebase/firestore';
-import { db } from '../../storage/firebase';
-import { NotificationManager } from 'react-notifications';
+import { onDelete } from '../hooks/database';
+import { onError } from '../hooks/notifications';
+import { Timestamp } from 'firebase/firestore';
 
 interface ExpenseItemProps extends ExpenseProps {
 	updateExpenseWindowHandler(forceState: boolean, expenses?: any);
-	appPermissionsState;
+	appPermissionsState: any;
+	created: any;
 }
 
 const ExpenseItem: React.FC<ExpenseItemProps> = (props) => {
 	//Delete an item from the database.
-	const handleDelete = async () => {
-		//Define the reference to the element in the database
+	const handleDelete = () => {
 		if (props.appPermissionsState.delete) {
-			const taskDocRef = doc(db, 'expenses', props.id);
-			try {
-				//Delete the reference
-				await deleteDoc(taskDocRef);
-				NotificationManager.success('Deleted successfully', `${props.name}`);
-			} catch (err) {
-				NotificationManager.error(
-					'Unable to delete from database!',
-					'Click me!',
-					5000,
-					() => {
-						alert(err);
-					},
-				);
-			}
+			onDelete(props.id, props.name);
 		} else {
-			NotificationManager.error('You have no permission to delete', 'Denied!');
+			onError('denied');
 		}
 	};
 
@@ -44,7 +30,11 @@ const ExpenseItem: React.FC<ExpenseItemProps> = (props) => {
 			</div>
 			<div
 				onClick={() => {
-					props.updateExpenseWindowHandler(true, props);
+					if (props.appPermissionsState.update) {
+						props.updateExpenseWindowHandler(true, props);
+					} else {
+						onError('denied');
+					}
 				}}
 				id='product-gear-icon'
 				className='product-item'>

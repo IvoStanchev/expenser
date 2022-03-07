@@ -1,35 +1,32 @@
 import './Expense-Add.css';
 import React, { useState } from 'react';
 import { ExpenseData } from '../interface/interface';
-import { db } from '../../storage/firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { NotificationManager } from 'react-notifications';
+import { Timestamp } from 'firebase/firestore';
+import { onPopulate } from '../hooks/database';
+import { onValidate } from '../hooks/notifications';
 
 interface ExpenseAddProps {
 	windowState: Boolean;
 	addExpenseWindowHandler(forceState: boolean);
-	appPermissionsState;
 }
-
 const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 	//Set state for the form input
 	const [expenseName, setExpenseName] = useState('');
 	const [expensePrice, setExpensePrice] = useState('');
 	const [expenseCurrency, setExpenseCurrency] = useState('BGN');
-	//Handlers for the form input that set all input values to state
+
+	//Handlers for the input form
 	const nameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.value.length <= 20) {
-			setExpenseName(event.target.value);
-		} else {
-			NotificationManager.warning('Name too large!', 'Warning');
-		}
+		let input = event.target.value;
+		input.length <= 20 ? setExpenseName(input) : onValidate('long_name');
 	};
 	const priceInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (+event.target.value.toString().length <= 9) {
-			setExpensePrice(event.target.value);
-		} else {
-			NotificationManager.warning('Number too large!', 'Warning');
-		}
+		let input = event.target.value;
+		!isNaN(+input) // Allow input only if the string can be converted to a number.
+			? input.toString().length <= 9 //Even 9 digits are overboard for this no-budget app.
+				? setExpensePrice(input)
+				: onValidate('long_number')
+			: onValidate('is_number');
 	};
 	const currencyInputHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setExpenseCurrency(event.target.value);
@@ -41,34 +38,18 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 		}
 	};
 	//Handle form submission
-	const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		//Prepare all expense data from state into an object
-
 		const expenseData: ExpenseData = {
 			name: expenseName,
-			price: Math.abs(+expensePrice).toFixed(2),
+			price: Math.abs(+expensePrice).toFixed(2), //Remove negative values, fix the number to 2nd decimal.
 			currency: expenseCurrency.toUpperCase(),
 			created: Timestamp.now(),
 		};
 		//Add the expenseData to the database
-		if (props.appPermissionsState.create) {
-			try {
-				await addDoc(collection(db, 'expenses'), expenseData);
-				NotificationManager.success('Added successfully', `${expenseName}`);
-			} catch (err) {
-				NotificationManager.error(
-					'Could not add to database',
-					'Click me!',
-					5000,
-					(err: string) => {
-						alert(err);
-					},
-				);
-			}
-		} else {
-			NotificationManager.error('You have no permissions', 'Denied');
-		}
+
+		onPopulate(expenseData, expenseName); // Add to database
 
 		//Form field reset
 		setExpenseName('');
@@ -107,7 +88,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 				<input
 					value={expenseName}
 					onChange={nameInputHandler}
-					placeholder='Please enter expense name.'
+					placeholder='Enter expense name.'
 					type='text'
 					required
 					id='form-name'
@@ -118,7 +99,7 @@ const ExpenseAdd: React.FC<ExpenseAddProps> = (props) => {
 				<input
 					value={String(expensePrice)}
 					onChange={priceInputHandler}
-					placeholder='Please enter expense price.'
+					placeholder='Enter expense price.'
 					type='text'
 					required
 					id='form-price'

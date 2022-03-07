@@ -1,119 +1,63 @@
 import './Expense-Total.css';
 import { useState, useEffect } from 'react';
-import { db } from '../../storage/firebase';
-import { NotificationManager } from 'react-notifications';
-import {
-	collection,
-	doc,
-	onSnapshot,
-	query,
-	updateDoc,
-} from 'firebase/firestore';
+import { eur, totalExpenses, usd } from '../hooks/calculations';
+import { onError, onValidate } from '../hooks/notifications';
+import { manageBudget } from '../hooks/database';
 
 const ExpenseTotal = (props: any) => {
+	//State related to the three info boxes
 	const [budget, setBudget] = useState('');
 	const [expenseCurrency, setExpenseCurrency] = useState('BGN');
 	const [totalExpensesState, setTotalExpensesState] = useState(0);
 
-	const q = query(collection(db, 'budget'));
-	const taskDocRef = doc(db, 'budget', 'qkwchA3krxNADr8dRGBP');
-	const usd = 1.79;
-	const eur = 1.96;
-
-	const totalExpenses = props.expenses.reduce(
-		(
-			sum: number,
-			expense: { data: { currency: string; price: string | number } },
-			_index: any,
-			_allExpenses: any,
-		) => {
-			if (expense.data.currency === 'USD') {
-				sum += +expense.data.price * 1.79;
-			} else if (expense.data.currency === 'EUR') {
-				sum += +expense.data.price * 1.96;
-			} else {
-				sum += +expense.data.price;
-			}
-
-			return sum;
-		},
-		0,
-	);
-
-	useEffect(() => {
-		setTotalExpensesState(totalExpenses);
-	}, [props.expenses]);
-
-	const getPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.value.length <= 9) {
-			setBudget(event.target.value);
+	//Fetch the budget from the input form
+	const inputBudget = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const input = event.target.value;
+		if (input.length <= 9) {
+			setBudget(input);
 		} else {
-			NotificationManager.warning('Number too large!', 'Warning');
+			onValidate('long_number');
 		}
 	};
-	const reset = async () => {
-		setBudget('0');
-		try {
-			await updateDoc(taskDocRef, {
-				//Pass the reference with the updates from the form.
-				budget: budget,
-			});
-			NotificationManager.success('Has been reset!', `Budget`);
-		} catch (err) {
-			NotificationManager.error('Could not update', 'Click me!', 5000, () => {
-				alert(err);
-			});
-		}
-	};
+
+	//Converts the funds to the various currencies.
 	const currencyChangeHandler = (currency: string) => {
 		setExpenseCurrency(currency);
 		if (currency === 'USD') {
-			setTotalExpensesState(totalExpenses / usd);
+			setTotalExpensesState(totalExpenses(props.expenses) / usd); //The total amount in lev divided by currency
 		} else if (currency === 'EUR') {
-			setTotalExpensesState(totalExpenses / eur);
+			setTotalExpensesState(totalExpenses(props.expenses) / eur); //The total amount in lev divided by currency
 		} else {
-			setTotalExpensesState(totalExpenses);
+			setTotalExpensesState(totalExpenses(props.expenses)); //Lev is the base currency
 		}
 	};
 
-	const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+	//Submits the funds form and sets the budget in the database.
+	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		//Define the reference to the item we want to update in the database
-
-		if (props.appPermissionsState.update) {
-			try {
-				await updateDoc(taskDocRef, {
-					//Pass the reference with the updates from the form.
-					budget: budget,
-				});
-				NotificationManager.success('Has been added!', `${budget}`);
-			} catch (err) {
-				NotificationManager.error('Could not update', 'Click me!', 5000, () => {
-					alert(err);
-				});
-			}
-		} else {
-			NotificationManager.error(
-				'You have no permissions to edit expenses.',
-				'Denied',
-			);
-		}
-		//Get a dynamic snapshot of the current database
-		onSnapshot(q, (querySnapshot) => {
-			//Set all expenses in state
-			setBudget(querySnapshot.docs.map((doc) => doc.data().budget).toString());
-		});
+		props.appPermissionsState.update //Check if we have update permissions
+			? manageBudget(budget, 'add')
+			: onError('denied');
 		//Form field reset
 		setBudget('');
 	};
-	useEffect(() => {
-		if (budget === '') {
-			onSnapshot(q, (querySnapshot) => {
-				//Set all expenses in state
-				setBudget(querySnapshot.docs.map((doc) => doc.data().budget).toString());
-			});
+
+	//Reset the funds in state and database
+	const reset = () => {
+		if (props.appPermissionsState.update) {
+			setBudget('0');
+			manageBudget(budget, 'reset');
 		}
-	}, []);
+	};
+
+	useEffect(() => {
+		//If the budget is 0 fetch it.
+		if (budget === '') {
+			manageBudget(budget, 'fetch', setBudget);
+		}
+		//Set the total to the state.
+		setTotalExpensesState(totalExpenses(props.expenses));
+	}, [props.expenses]);
 
 	return (
 		<div className='total-box-container'>
@@ -174,7 +118,7 @@ const ExpenseTotal = (props: any) => {
 							</label>
 							<input
 								value={budget}
-								onChange={getPrice}
+								onChange={inputBudget}
 								id='income-input'
 								name='income-input'
 								type='number'
@@ -218,19 +162,19 @@ const ExpenseTotal = (props: any) => {
 					<a
 						href='/#'
 						onClick={() => {
-							props.sortHandler('name', 'asc');
+							props.sortHandler('date', 'asc');
 						}}>
-						name{' '}
+						date{' '}
 						<span className='arrow'>
 							<>&uarr;</>
 						</span>
 					</a>
 					<a
 						onClick={() => {
-							props.sortHandler('name', 'desc');
+							props.sortHandler('date', 'desc');
 						}}
 						href='/#'>
-						name{' '}
+						date{' '}
 						<span className='arrow'>
 							<>&darr;</>
 						</span>

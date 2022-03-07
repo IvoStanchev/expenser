@@ -1,8 +1,7 @@
 import './Expense-Update.css';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../storage/firebase';
 import React, { useEffect, useState } from 'react';
-import { NotificationManager } from 'react-notifications';
+import { onError, onValidate } from '../hooks/notifications';
+import { onEdit } from '../hooks/database';
 
 interface ExpenseUpdateProps {
 	updateWindowState: boolean;
@@ -27,17 +26,19 @@ const ExpenseUpdate: React.FC<ExpenseUpdateProps> = (props) => {
 
 	//Handlers for the form input
 	const nameInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.value.length <= 20) {
-			setExpenseName(event.target.value);
+		let input = event.target.value;
+		if (input.length <= 20) {
+			setExpenseName(input);
 		} else {
-			NotificationManager.warning('Name too large!', 'Warning');
+			onValidate('long_name');
 		}
 	};
 	const priceInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (+event.target.value.toString().length <= 9) {
-			setExpensePrice(event.target.value);
+		let input = event.target.value;
+		if (+input.toString().length <= 9) {
+			setExpensePrice(input);
 		} else {
-			NotificationManager.warning('Number too large!', 'Warning');
+			onValidate('long_number');
 		}
 	};
 	const currencyInputHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,28 +48,8 @@ const ExpenseUpdate: React.FC<ExpenseUpdateProps> = (props) => {
 	//Form handler
 	const handleUpdate = async (event: React.ChangeEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		//Define the reference to the item we want to update in the database
-		const taskDocRef = doc(db, 'expenses', props.getExpenses.id);
-		if (props.appPermissionsState.update) {
-			try {
-				await updateDoc(taskDocRef, {
-					//Pass the reference with the updates from the form.
-					name: expenseName,
-					price: expensePrice,
-					currency: expenseCurrency,
-				});
-				NotificationManager.success('Has been updated!', `${expenseName}`);
-			} catch (err) {
-				NotificationManager.error('Could not update', 'Click me!', 5000, () => {
-					alert(err);
-				});
-			}
-		} else {
-			NotificationManager.error(
-				'You have no permissions to edit expenses.',
-				'Denied',
-			);
-		}
+		//Update the expense
+		onEdit(expenseName, expensePrice, expenseCurrency, props.getExpenses.id);
 	};
 	return (
 		<div

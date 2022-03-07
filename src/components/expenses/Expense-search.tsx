@@ -6,12 +6,14 @@ interface search {
 }
 
 const ExpenseSearch: React.FC<search> = (props) => {
+	//Search term state
 	const [searchTerm, setSearchTerm] = useState('');
 
+	//Fetch the search term from the input box
 	const searchHandler = (event) => {
 		setSearchTerm(event.target.value);
 	};
-
+	//Lift the state to the parent.
 	useEffect(() => {
 		props.searchStateHandler(searchTerm);
 	}, [searchTerm]);
