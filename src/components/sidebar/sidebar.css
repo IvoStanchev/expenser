@@ -73,7 +73,7 @@ svg {
 
 	#svg-gear-permissions {
 		position: relative;
-		margin: auto auto 170px auto;
+		margin: auto auto 0px auto;
 		padding-bottom: 20px;
 		width: 3vh;
 	}
