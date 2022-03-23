@@ -77,4 +77,4 @@ To run this project locally, clone the repo and use the following:
 
 - Authentication
 
-- Support for more devises
+- Support for more devices
