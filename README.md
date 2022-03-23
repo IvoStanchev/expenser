@@ -22,7 +22,7 @@ The app allows you to list, add, edit and delete expenses and track your monthly
         - The sidebar is clickable and will provide the permission menu
         - The gear icon on each product opens a slide window with a form to edit
         - Center flip card can add funds
-        - Other buttons change th ecurrency and soring of the lits.
+        - Other buttons change the currency and sorting order of the lits.
 
 ## Features
 
